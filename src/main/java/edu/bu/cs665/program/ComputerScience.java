@@ -1,4 +1,4 @@
 package edu.bu.cs665.program;
 
-public class ComputerScience {
+public class ComputerScience extends Department {
 }
