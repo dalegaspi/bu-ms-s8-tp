@@ -1,6 +1,6 @@
 package edu.bu.cs665.person.employee;
 
-public class Faculty extends Title{
+public class Faculty extends Title {
     private boolean partTime;
 
     public boolean isPartTime() {
