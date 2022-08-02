@@ -1,4 +1,4 @@
-package edu.bu.cs665.person.employee;
+package edu.bu.cs665.person;
 
 public class TitleResponsibility<T> {
 }

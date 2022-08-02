@@ -1,7 +1,7 @@
-package edu.bu.cs665.person.employee;
+package edu.bu.cs665.person;
 
 import java.util.List;
 
-public class Title {
+public abstract class Title {
     List<TitleResponsibility<?>> responsibilities;
 }
