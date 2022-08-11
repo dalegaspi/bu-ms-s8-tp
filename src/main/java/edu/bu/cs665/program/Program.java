@@ -1,4 +1,6 @@
 package edu.bu.cs665.program;
 
-public class Program {
+import edu.bu.cs665.AbstractEntity;
+
+public class Program extends AbstractEntity {
 }

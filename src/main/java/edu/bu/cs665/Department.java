@@ -17,6 +17,8 @@ public abstract class Department {
     private Employee graduateAdvisor;
     private Employee underGraduateAdvisor;
 
+    protected final Registrar registrar = Registrar.getInstance();
+
     private List<Program> programs;
 
     public Employee getChairPerson() {
