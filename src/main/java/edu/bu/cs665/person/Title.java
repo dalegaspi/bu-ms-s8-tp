@@ -5,5 +5,6 @@ import edu.bu.cs665.AbstractEntity;
 import java.util.List;
 
 public abstract class Title extends AbstractEntity {
-    List<TitleResponsibility<?>> responsibilities;
+
+    public abstract String description();
 }

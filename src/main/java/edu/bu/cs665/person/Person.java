@@ -1,16 +1,20 @@
 package edu.bu.cs665.person;
 
 import edu.bu.cs665.AbstractEntity;
-import edu.bu.cs665.person.employee.Employee;
 
-import java.util.List;
 import java.util.logging.Logger;
 
 public class Person extends AbstractEntity {
     private static Logger logger = Logger.getLogger(Person.class.getName());
 
-    public Person() {
+    private String name;
+
+    public Person(String name) {
+        this.name = name;
         logger.info("Person created");
     }
 
+    public String getName() {
+        return name;
+    }
 }

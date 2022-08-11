@@ -28,4 +28,14 @@ public class Faculty extends Title {
     public void setCoordinatedConcentrations(List<Concentration> coordinatedConcentrations) {
         this.coordinatedConcentrations = coordinatedConcentrations;
     }
+
+    public String description() {
+        return isFullTime() ? "Full-Time" : "Part-Time" + " Faculty";
+    }
+
+    public static Title getInstance(boolean fullTime) {
+        var f = new Faculty();
+        f.setFullTime(fullTime);
+        return f;
+    }
 }

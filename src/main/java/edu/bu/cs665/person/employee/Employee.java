@@ -10,6 +10,10 @@ public class Employee extends Person {
 
     private Set<Title> titles;
 
+    public Employee(String name) {
+        super(name);
+    }
+
     public Set<Title> getTitles() {
         return titles;
     }

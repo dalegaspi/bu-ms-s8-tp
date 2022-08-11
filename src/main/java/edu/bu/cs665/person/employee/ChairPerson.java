@@ -16,4 +16,12 @@ public class ChairPerson extends Title {
     public void setTopLevelConcentrations(List<Concentration> topLevelConcentrations) {
         this.topLevelConcentrations = topLevelConcentrations;
     }
+
+    public String description() {
+        return "ChairPerson";
+    }
+
+    public static Title getInstance() {
+        return new ChairPerson();
+    }
 }
