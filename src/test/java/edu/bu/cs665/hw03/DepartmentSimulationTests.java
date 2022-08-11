@@ -8,6 +8,6 @@ public class DepartmentSimulationTests {
     @Test
     @DisplayName("Enrollment Simulation")
     public void enrollmentSimulation() {
-        var p = new Person("Jack Sparrow");
+        var p = new Student("Jack Sparrow");
     }
 }

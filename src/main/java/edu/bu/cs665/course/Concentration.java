@@ -1,11 +1,14 @@
-package edu.bu.cs665.program;
+package edu.bu.cs665.course;
 
 import edu.bu.cs665.course.Course;
+import edu.bu.cs665.person.Faculty;
 
 import java.util.List;
 
 public class Concentration {
     private List<Course> courses;
+
+    private Faculty coordinator;
 
     private String description;
 

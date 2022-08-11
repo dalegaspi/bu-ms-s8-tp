@@ -1,7 +1,6 @@
-package edu.bu.cs665.person.employee;
+package edu.bu.cs665.person;
 
-import edu.bu.cs665.person.Title;
-import edu.bu.cs665.program.Concentration;
+import edu.bu.cs665.course.Concentration;
 
 import java.util.ArrayList;
 import java.util.List;

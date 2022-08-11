@@ -1,14 +1,17 @@
-package edu.bu.cs665.person.employee;
+package edu.bu.cs665.person;
 
 import edu.bu.cs665.course.Course;
-import edu.bu.cs665.person.Title;
-import edu.bu.cs665.program.Concentration;
+import edu.bu.cs665.course.Concentration;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Faculty extends Title {
+public class Faculty extends Employee {
     private boolean fullTime;
+
+    public Faculty(String name) {
+        super(name);
+    }
 
     public boolean isFullTime() {
         return fullTime;
@@ -27,15 +30,5 @@ public class Faculty extends Title {
 
     public void setCoordinatedConcentrations(List<Concentration> coordinatedConcentrations) {
         this.coordinatedConcentrations = coordinatedConcentrations;
-    }
-
-    public String description() {
-        return isFullTime() ? "Full-Time" : "Part-Time" + " Faculty";
-    }
-
-    public static Title getInstance(boolean fullTime) {
-        var f = new Faculty();
-        f.setFullTime(fullTime);
-        return f;
     }
 }

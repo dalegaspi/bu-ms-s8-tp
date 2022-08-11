@@ -1,7 +1,4 @@
-package edu.bu.cs665.person.employee;
-
-import edu.bu.cs665.person.Person;
-import edu.bu.cs665.person.Title;
+package edu.bu.cs665.person;
 
 import java.util.Optional;
 import java.util.Set;
@@ -27,16 +24,12 @@ public class Employee extends Person {
         return getTitleOfType(type).isPresent();
     }
 
-    public boolean isFaculty() {
-        return hasTitleType(Faculty.class);
-    }
-
     public boolean isAdvisor() {
         return hasTitleType(Advisor.class);
     }
 
-    public boolean isPartTimeFaculty() {
-        Optional<Faculty> t = getTitleOfType(Faculty.class);
-        return t.map(Faculty::isFullTime).orElse(false);
+    public boolean isChairPerson() {
+        return hasTitleType(ChairPerson.class);
     }
+
 }

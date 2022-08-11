@@ -1,4 +1,4 @@
-package edu.bu.cs665.program;
+package edu.bu.cs665.course;
 
 import edu.bu.cs665.ds.TreeNode;
 

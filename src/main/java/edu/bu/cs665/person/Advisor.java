@@ -1,6 +1,4 @@
-package edu.bu.cs665.person.employee;
-
-import edu.bu.cs665.person.Title;
+package edu.bu.cs665.person;
 
 public class Advisor extends Title {
     public String description() {
