@@ -13,11 +13,11 @@ public class Course extends AbstractEntity implements HyperTextMarkupFormatter {
 
     private String code;
 
-    public Course(String code, String description, Syllabus syllabus, String title) {
+    public Course(String code, String title, String description) {
         this.description = description;
         this.title = title;
         this.code = code;
-        this.syllabus = syllabus;
+        this.syllabus = Syllabus.createBasicSyllabus(this);
     }
 
     public int getUnits() {

@@ -7,10 +7,7 @@ import edu.bu.cs665.person.Person;
 import edu.bu.cs665.person.Student;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Controller that deals with the validation of enrollments
@@ -31,7 +28,7 @@ public final class Registrar implements Subject<Event> {
 
     private final List<ClassOffering> classOfferings;
 
-    private final Map<ClassOffering, List<Student>> classOfferingWaitList = new HashMap<>();
+    private final Map<ClassOffering, Set<Student>> classOfferingWaitList = new HashMap<>();
 
     public void addOffering(@NonNull final ClassOffering classOffering) {
         classOfferings.add(classOffering);
@@ -41,10 +38,16 @@ public final class Registrar implements Subject<Event> {
         return classOfferings;
     }
 
-    private addToWaitList(ClassOffering classOffering, Student student)
+    private void addToWaitList(ClassOffering classOffering, Student student) {
+        if (!classOfferingWaitList.containsKey(classOffering)) {
+            classOfferingWaitList.put(classOffering, new HashSet<>());
+        }
+
+        classOfferingWaitList.get(classOffering).add(student);
+    }
 
     public EnrollmentStatus enroll(@NonNull Student student, @NonNull ClassOffering classOffering) {
-        // todo enrollment stuff
+        // todo enrollment stuff ...including waitlist processing/notifications
         return EnrollmentStatus.SUCCESS;
     }
 

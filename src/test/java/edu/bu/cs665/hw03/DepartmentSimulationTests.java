@@ -1,6 +1,8 @@
 package edu.bu.cs665.hw03;
 
 import edu.bu.cs665.BostonUniversity;
+import edu.bu.cs665.course.Course;
+import edu.bu.cs665.person.Person;
 import edu.bu.cs665.person.Student;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,6 +19,12 @@ public class DepartmentSimulationTests {
         var cs = bu.findDepartment("Computer Science");
 
         assertTrue(cs.isPresent());
+
+        // testing equality
+        Course c1 = new Course("CS526", "Data Structures and Algorithms", "Data Structures and Algorithms");
+        Course c2 = new Course("CS526", "Data Structures and Algorithms", "Data Structures and Algorithms");
+
+        assertEquals(c1, c2);
     }
 
     @Test
