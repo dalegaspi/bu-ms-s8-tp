@@ -22,9 +22,15 @@ public class Person extends AbstractEntity {
         return new Student(name);
     }
 
-    public static Employee createFaculty(String name, boolean fullTime) {
+    public static Faculty createFaculty(String name, boolean fullTime) {
         var e = new Faculty(name);
         e.setFullTime(fullTime);
+        return e;
+    }
+
+    public static Faculty createChairPerson(String name) {
+        var e = createFaculty(name, false);
+        e.getTitles().add(ChairPerson.getInstance());
         return e;
     }
 }

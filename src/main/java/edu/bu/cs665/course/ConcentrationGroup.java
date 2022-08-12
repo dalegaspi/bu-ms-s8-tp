@@ -9,8 +9,8 @@ import edu.bu.cs665.ds.TreeNode;
  * @see TreeNode
  * @author dlegaspi@bu.edu
  */
-public class ConcentrationHierarchy extends TreeNode<Concentration> {
-    public ConcentrationHierarchy(Concentration data) {
+public class ConcentrationGroup extends TreeNode<Concentration> {
+    public ConcentrationGroup(Concentration data) {
         super(data);
     }
 }

@@ -1,6 +1,6 @@
 package edu.bu.cs665.hw03;
 
-import edu.bu.cs665.person.Person;
+import edu.bu.cs665.person.Student;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
