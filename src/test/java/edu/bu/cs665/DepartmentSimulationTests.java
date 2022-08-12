@@ -1,12 +1,12 @@
 package edu.bu.cs665;
 
-import edu.bu.cs665.BostonUniversity;
 import edu.bu.cs665.course.Course;
 import edu.bu.cs665.person.Student;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class DepartmentSimulationTests {
 

@@ -4,4 +4,9 @@ public class CertificateProgram extends Program {
     public CertificateProgram(String title) {
         super(title);
     }
+
+    @Override
+    public String toString() {
+        return String.format("Certificate Program %s", getTitle());
+    }
 }
