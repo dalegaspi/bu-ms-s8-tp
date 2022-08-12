@@ -1,9 +1,18 @@
 package edu.bu.cs665.person;
 
 import edu.bu.cs665.AbstractEntity;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.logging.Logger;
 
+/**
+ * Base class for Student and School employee
+ *
+ * @see Student
+ * @see Employee
+ * @see Faculty
+ * @author dlegaspi@bu.edu
+ */
 public class Person extends AbstractEntity {
     private static Logger logger = Logger.getLogger(Person.class.getName());
 
@@ -13,7 +22,6 @@ public class Person extends AbstractEntity {
 
     public Person(String name) {
         this.name = name;
-        logger.info("Person created");
     }
 
     public String getName() {
@@ -34,6 +42,10 @@ public class Person extends AbstractEntity {
         var e = createFaculty(name, false);
         e.getTitles().add(ChairPerson.getInstance());
         return e;
+    }
+
+    public static void setAsAdvisor(@NonNull Faculty faculty) {
+        faculty.getTitles().add(Advisor.getInstance());
     }
 
     public static Employee createEmployee(String name) {

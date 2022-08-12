@@ -1,6 +1,7 @@
 package edu.bu.cs665;
 
 import edu.bu.cs665.course.SchoolYear;
+import edu.bu.cs665.person.Person;
 
 import java.awt.event.WindowStateListener;
 
@@ -39,7 +40,18 @@ public final class ComputerScienceDepartment extends Department {
 
         @Override
         public void addFaculty() {
+            // set chair person
+            var chairPerson = Person.createChairPerson("Tony Stark");
+            instance.setChairPerson(chairPerson);
 
+            // set advisors
+            var gradAdvisor = Person.createFaculty("Peter Parker", true);
+            Person.setAsAdvisor(gradAdvisor);
+            instance.addGraduateAdvisor(SchoolYear.fromCurrentYear(), gradAdvisor);
+
+            var underGradAdvisor = Person.createFaculty("Steve Rogers", true);
+            Person.setAsAdvisor(underGradAdvisor);
+            instance.addUnderGraduateAdvisor(SchoolYear.fromCurrentYear(), underGradAdvisor);
         }
 
         @Override

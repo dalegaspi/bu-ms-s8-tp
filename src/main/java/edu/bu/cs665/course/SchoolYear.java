@@ -38,4 +38,9 @@ public class SchoolYear extends AbstractEntity {
     public String getId() {
         return String.format("SchoolYear-%d", year);
     }
+
+    @Override
+    public String toString() {
+        return String.valueOf(year);
+    }
 }

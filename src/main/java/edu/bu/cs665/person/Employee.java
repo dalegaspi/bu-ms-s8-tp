@@ -1,11 +1,12 @@
 package edu.bu.cs665.person;
 
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
 public class Employee extends Person {
 
-    private Set<Title> titles;
+    private final Set<Title> titles = new HashSet<>();
 
     public Employee(String name) {
         super(name);

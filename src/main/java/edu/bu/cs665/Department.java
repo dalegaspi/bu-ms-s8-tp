@@ -4,10 +4,13 @@ import edu.bu.cs665.course.ConcentrationGroup;
 import edu.bu.cs665.course.SchoolYear;
 import edu.bu.cs665.person.Employee;
 import edu.bu.cs665.person.Faculty;
+import edu.bu.cs665.person.Person;
 import edu.bu.cs665.person.Student;
 import edu.bu.cs665.program.Program;
 
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Abstract class for university department
@@ -15,6 +18,8 @@ import java.util.*;
  * @author dlegaspi@bu.edu
  */
 public abstract class Department {
+
+    private static Logger logger = Logger.getLogger(Department.class.getName());
 
     public abstract String getName();
 
@@ -41,7 +46,9 @@ public abstract class Department {
     }
 
     public void setChairPerson(Faculty chairPerson) {
+        logger.log(Level.INFO, "Setting {0} as Chairperson", chairPerson.getName());
         this.chairPerson = chairPerson;
+        this.faculty.add(chairPerson);
     }
 
     public List<Faculty> getFaculty() {
@@ -57,6 +64,8 @@ public abstract class Department {
     }
 
     public void addGraduateAdvisor(SchoolYear year, Faculty faculty) {
+        logger.log(Level.INFO, "Setting {0} as Graduate advisor for {1}", new Object[] {
+                faculty.getName(), year });
         graduateAdvisors.put(year, faculty);
     }
 
@@ -65,6 +74,8 @@ public abstract class Department {
     }
 
     public void addUnderGraduateAdvisor(SchoolYear year, Faculty faculty) {
+        logger.log(Level.INFO, "Setting {0} as Undergraduate advisor for {1}", new Object[] {
+                faculty.getName(), year });
         this.underGraduateAdvisors.put(year, faculty);
     }
 

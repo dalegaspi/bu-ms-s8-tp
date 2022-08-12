@@ -14,7 +14,7 @@ public class Faculty extends Employee {
     }
 
     public boolean isFullTime() {
-        return fullTime;
+        return fullTime && !isChairPerson();
     }
 
     public void setFullTime(boolean fullTime) {
