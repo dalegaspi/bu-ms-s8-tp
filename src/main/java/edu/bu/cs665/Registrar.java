@@ -1,5 +1,6 @@
 package edu.bu.cs665;
 
+import edu.bu.cs665.exceptions.InvalidEnrollmentRequest;
 import edu.bu.cs665.notifications.Event;
 import edu.bu.cs665.notifications.Observer;
 import edu.bu.cs665.notifications.Subject;
@@ -46,7 +47,8 @@ public final class Registrar implements Subject<Event> {
         classOfferingWaitList.get(classOffering).add(student);
     }
 
-    public EnrollmentStatus enroll(@NonNull Student student, @NonNull ClassOffering classOffering) {
+    public EnrollmentStatus enroll(@NonNull Student student, @NonNull ClassOffering classOffering)
+                    throws InvalidEnrollmentRequest {
         // todo enrollment stuff ...including waitlist processing/notifications
         return EnrollmentStatus.SUCCESS;
     }
