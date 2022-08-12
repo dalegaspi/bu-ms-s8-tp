@@ -2,6 +2,7 @@ package edu.bu.cs665;
 
 import edu.bu.cs665.course.ConcentrationGroup;
 import edu.bu.cs665.course.SchoolYear;
+import edu.bu.cs665.exceptions.InvalidEnrollmentRequest;
 import edu.bu.cs665.person.Faculty;
 import edu.bu.cs665.person.Student;
 import edu.bu.cs665.program.Program;
@@ -36,7 +37,7 @@ public abstract class Department {
     protected final Registrar registrar = Registrar.getInstance();
 
     private final List<ConcentrationGroup> concentrationGroups = new ArrayList<>();
-    private final List<Program> programs = new ArrayList<>();
+    private final Set<Program> programs = new HashSet<>();
 
     private final Set<Student> students = new HashSet<>();
 
@@ -87,8 +88,12 @@ public abstract class Department {
         this.underGraduateAdvisors.put(year, faculty);
     }
 
-    public List<Program> getPrograms() {
+    public Collection<Program> getPrograms() {
         return programs;
+    }
+
+    public Optional<Program> findProgram(String title) {
+        return getPrograms().stream().filter(p -> p.getTitle().equals(title)).findAny();
     }
 
     public void addProgram(@NonNull Program program) {
@@ -106,6 +111,22 @@ public abstract class Department {
 
     public Collection<Student> getStudents() {
         return students;
+    }
+
+    public void enrollProgram(Student student, Program program) {
+        assert getStudents().contains(student);
+
+        getStudents().add(student);
+        student.setProgram(program);
+    }
+
+    public void enrollProgram(Student student, String programTitle) throws InvalidEnrollmentRequest {
+        assert getStudents().contains(student);
+
+        findProgram(programTitle).map(p -> {
+            student.setProgram(p);
+            return true;
+        }).orElseThrow(() -> new InvalidEnrollmentRequest(String.format("Program %s not found", programTitle)));
     }
 
     public Optional<Student> findStudent(String name) {
