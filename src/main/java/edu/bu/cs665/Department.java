@@ -18,6 +18,12 @@ public abstract class Department {
 
     public abstract String getName();
 
+    private final DepartmentMailRoom mailroom;
+
+    public Department() {
+        mailroom = DepartmentMailRoom.getInstance(this, registrar);
+    }
+
     private Faculty chairPerson;
     private List<Faculty> faculty = new ArrayList<>();
     private final Map<SchoolYear, Faculty> graduateAdvisors = new HashMap<>();

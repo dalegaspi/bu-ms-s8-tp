@@ -1,6 +1,9 @@
 package edu.bu.cs665;
 
 import edu.bu.cs665.exceptions.InvalidRecipientException;
+import edu.bu.cs665.notifications.Event;
+import edu.bu.cs665.notifications.Observer;
+import edu.bu.cs665.notifications.Subject;
 import edu.bu.cs665.person.Faculty;
 import edu.bu.cs665.person.Person;
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -10,17 +13,16 @@ import org.checkerframework.checker.nullness.qual.NonNull;
  *
  * @author dlegaspi@bu.edu
  */
-public final class DepartmentMailRoom {
-    private static DepartmentMailRoom instance;
-
+public final class DepartmentMailRoom implements Observer<Event> {
     private final Department department;
 
-    public DepartmentMailRoom(Department department) {
+    public DepartmentMailRoom(Department department, Registrar registrar) {
         this.department = department;
+        registrar.registerObserver(this);
     }
 
-    private DepartmentMailRoom getInstance(Department department) {
-        return new DepartmentMailRoom(department);
+    public static DepartmentMailRoom getInstance(Department department, Registrar registrar) {
+        return new DepartmentMailRoom(department, registrar);
     }
 
     public void sendMessageToChairPerson(@NonNull Person sender, String subject, String message)
@@ -39,5 +41,14 @@ public final class DepartmentMailRoom {
 
     public void sendMessage(@NonNull Person sender, @NonNull Person recipient, String subject, String message) {
         recipient.getMailbox().addMessage(sender, subject, message);
+    }
+
+    private final Person mailroomSender = Person.createEmployee("Mailroom");
+
+    @Override
+    public void accept(Event event) {
+        if (event.getRecipient() instanceof Faculty) {
+            sendMessage(mailroomSender, event.getRecipient(), event.getSubject(), event.getDescription());
+        }
     }
 }

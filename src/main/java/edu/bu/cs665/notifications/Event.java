@@ -9,10 +9,14 @@ import java.util.Map;
 public class Event extends AbstractEntity {
     private String description;
 
-    private Person recipient;
+    private final String subject;
 
-    public Event(String message, Person recipient) {
-        description = message;
+    private final Person recipient;
+
+    public Event(String subject, String message, Person recipient) {
+        this.description = message;
+        this.recipient = recipient;
+        this.subject = subject;
     }
 
     public String getDescription() {
@@ -27,5 +31,13 @@ public class Event extends AbstractEntity {
 
     public Map<String, String> getProperties() {
         return properties;
+    }
+
+    public Person getRecipient() {
+        return recipient;
+    }
+
+    public String getSubject() {
+        return subject;
     }
 }

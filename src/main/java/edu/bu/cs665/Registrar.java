@@ -70,7 +70,7 @@ public final class Registrar implements Subject<Event> {
         observers.forEach(observer -> observer.accept(event));
     }
 
-    private Event createEvent(String message, Person recipient) {
-        return new Event(message, recipient);
+    private Event createEvent(String subject, String message, Person recipient) {
+        return new Event(subject, message, recipient);
     }
 }

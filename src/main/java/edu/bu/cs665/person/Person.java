@@ -36,6 +36,10 @@ public class Person extends AbstractEntity {
         return e;
     }
 
+    public static Employee createEmployee(String name) {
+        return new Employee(name);
+    }
+
     public Mailbox getMailbox() {
         return mailbox;
     }
