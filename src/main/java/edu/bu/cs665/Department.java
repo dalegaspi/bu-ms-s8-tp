@@ -17,15 +17,13 @@ import java.util.*;
 public abstract class Department {
     private Employee chairPerson;
     private List<Employee> faculty = new ArrayList<>();
-    private Map<SchoolYear, Faculty> graduateAdvisors = new HashMap<>();
-    private Map<SchoolYear, Faculty> underGraduateAdvisors = new HashMap<>();
+    private final Map<SchoolYear, Faculty> graduateAdvisors = new HashMap<>();
+    private final Map<SchoolYear, Faculty> underGraduateAdvisors = new HashMap<>();
 
     protected final Registrar registrar = Registrar.getInstance();
 
     private final List<ConcentrationGroup> concentrationGroups = new ArrayList<>();
     private List<Program> programs;
-
-    private final List<ClassOffering> classOfferings = new ArrayList<>();
 
     private final List<Student> students = new ArrayList<>();
 
@@ -74,7 +72,7 @@ public abstract class Department {
     }
 
     public List<ClassOffering> getClassOfferings() {
-        return classOfferings;
+        return registrar.getClassOfferings();
     }
 
     public List<Student> getStudents() {
