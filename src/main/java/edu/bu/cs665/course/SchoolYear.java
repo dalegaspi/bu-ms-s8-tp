@@ -2,6 +2,7 @@ package edu.bu.cs665.course;
 
 import edu.bu.cs665.AbstractEntity;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class SchoolYear extends AbstractEntity {
@@ -27,6 +28,10 @@ public class SchoolYear extends AbstractEntity {
 
     public static SchoolYear fromYear(int year) {
         return new SchoolYear(year);
+    }
+
+    public static SchoolYear fromCurrentYear() {
+        return fromYear(LocalDateTime.now().getYear());
     }
 
     @Override

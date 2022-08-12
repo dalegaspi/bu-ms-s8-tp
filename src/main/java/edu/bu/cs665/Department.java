@@ -15,8 +15,11 @@ import java.util.*;
  * @author dlegaspi@bu.edu
  */
 public abstract class Department {
-    private Employee chairPerson;
-    private List<Employee> faculty = new ArrayList<>();
+
+    public abstract String getName();
+
+    private Faculty chairPerson;
+    private List<Faculty> faculty = new ArrayList<>();
     private final Map<SchoolYear, Faculty> graduateAdvisors = new HashMap<>();
     private final Map<SchoolYear, Faculty> underGraduateAdvisors = new HashMap<>();
 
@@ -27,19 +30,19 @@ public abstract class Department {
 
     private final List<Student> students = new ArrayList<>();
 
-    public Employee getChairPerson() {
+    public Faculty getChairPerson() {
         return chairPerson;
     }
 
-    public void setChairPerson(Employee chairPerson) {
+    public void setChairPerson(Faculty chairPerson) {
         this.chairPerson = chairPerson;
     }
 
-    public List<Employee> getFaculty() {
+    public List<Faculty> getFaculty() {
         return faculty;
     }
 
-    public void setFaculty(List<Employee> faculty) {
+    public void setFaculty(List<Faculty> faculty) {
         this.faculty = faculty;
     }
 
@@ -78,4 +81,18 @@ public abstract class Department {
     public List<Student> getStudents() {
         return students;
     }
+
+    public interface DepartmentBuilder<T extends Department> {
+        void addConcentrations();
+
+        void addFaculty();
+
+        void addPrograms();
+
+        void addCourses(SchoolYear year);
+
+        T build();
+    }
+
+    public abstract <T extends Department> DepartmentBuilder<T> getBuilder();
 }

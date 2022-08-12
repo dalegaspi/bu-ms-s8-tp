@@ -9,6 +9,8 @@ public class Person extends AbstractEntity {
 
     private final String name;
 
+    private final Mailbox mailbox = new Mailbox();
+
     public Person(String name) {
         this.name = name;
         logger.info("Person created");
@@ -32,5 +34,9 @@ public class Person extends AbstractEntity {
         var e = createFaculty(name, false);
         e.getTitles().add(ChairPerson.getInstance());
         return e;
+    }
+
+    public Mailbox getMailbox() {
+        return mailbox;
     }
 }
