@@ -3,7 +3,9 @@ package edu.bu.cs665;
 import edu.bu.cs665.course.*;
 import edu.bu.cs665.exceptions.InvalidClassOfferingState;
 import edu.bu.cs665.exceptions.InvalidEnrollmentRequest;
+import edu.bu.cs665.exceptions.InvalidEnrollmentState;
 import edu.bu.cs665.exceptions.InvalidRecipientException;
+import edu.bu.cs665.grade.CourseGrade;
 import edu.bu.cs665.grade.GpaComputeStrategy;
 import edu.bu.cs665.messaging.DepartmentMailRoom;
 import edu.bu.cs665.messaging.FacultyMessenger;
@@ -11,6 +13,7 @@ import edu.bu.cs665.person.Faculty;
 import edu.bu.cs665.person.Person;
 import edu.bu.cs665.person.Student;
 import edu.bu.cs665.program.Program;
+import edu.bu.cs665.program.Thesis;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.*;
@@ -43,7 +46,7 @@ public abstract class Department implements FacultyMessenger {
     private final Map<SchoolYear, Faculty> graduateAdvisors = new HashMap<>();
     private final Map<SchoolYear, Faculty> underGraduateAdvisors = new HashMap<>();
 
-    protected final Registrar registrar = Registrar.getInstance();
+    private final Registrar registrar = Registrar.getInstance();
 
     public Registrar getRegistrar() {
         return this.registrar;
@@ -121,7 +124,7 @@ public abstract class Department implements FacultyMessenger {
         return concentrationGroups;
     }
 
-    public List<ClassOffering> getClassOfferings() {
+    public Collection<ClassOffering> getClassOfferings() {
         return registrar.getClassOfferings();
     }
 
@@ -152,6 +155,29 @@ public abstract class Department implements FacultyMessenger {
 
     public Optional<Course> findCourse(String id) {
         return getCourses().stream().filter(c -> c.getId().equals(id)).findAny();
+    }
+
+    public void addThesis(@NonNull Student student, @NonNull Thesis thesis, Faculty advisor)
+                    throws InvalidEnrollmentRequest {
+        try {
+            if (!student.isInFinalYear())
+                throw new InvalidEnrollmentRequest("Cannot assign thesis if student is not in final year of program");
+
+            if (!getFaculty().contains(advisor))
+                throw new InvalidEnrollmentRequest("Requested thesis advisor is not member of faculty");
+
+            if (!advisor.isFullTime())
+                throw new InvalidEnrollmentRequest("Requested thesis advisor is not full-time member of faculty");
+
+            thesis.setAdvisor(advisor);
+            student.setThesis(thesis);
+        } catch (InvalidEnrollmentState e) {
+            throw new InvalidEnrollmentRequest("Cannot assign thesis due to error: " + e.getMessage(), e);
+        }
+    }
+
+    public void assignGrade(Student student, String courseId, CourseGrade grade) {
+        student.findEnrolledCourse(courseId).ifPresent(ec -> ec.setGrade(grade));
     }
 
     public interface DepartmentBuilder<T extends Department> {

@@ -44,8 +44,14 @@ public final class Registrar implements Subject<Event> {
         classOfferings.add(classOffering);
     }
 
-    public List<ClassOffering> getClassOfferings() {
+    public Collection<ClassOffering> getClassOfferings() {
         return classOfferings;
+    }
+
+    public Optional<ClassOffering> findClassOffering(String courseId, Semester semester) {
+        return getClassOfferings().stream()
+                        .filter(co -> co.getCourse().getId().equals(courseId) && co.getSemester().equals(semester))
+                        .findAny();
     }
 
     private void addToWaitList(ClassOffering classOffering, Student student) {
@@ -54,6 +60,12 @@ public final class Registrar implements Subject<Event> {
         }
 
         classOfferingWaitList.get(classOffering).add(student);
+    }
+
+    private void removeFromWaitList(ClassOffering classOffering, Student student) {
+        assert classOfferings.contains(classOffering);
+
+        classOfferingWaitList.get(classOffering).remove(student);
     }
 
     public ClassOffering createClassOffering(@NonNull Course course, @NonNull Faculty professor, Semester semester,
@@ -79,10 +91,30 @@ public final class Registrar implements Subject<Event> {
         return faculty.isFullTime() ? count > PER_SEM_LIMIT_FULL_TIME_FACULTY : count > PER_SEM_LIMIT_PART_TIME_FACULTY;
     }
 
+    public void processAddToWaitList(ClassOffering classOffering, Student student) {
+        addToWaitList(classOffering, student);
+        var subj = "Waitlist notification";
+        var msg = String.format("You are waitlisted for Class %s", classOffering);
+        var e = createEvent(subj, msg, student);
+    }
+
     public EnrolledCourse enrollCourse(@NonNull Student student, @NonNull ClassOffering classOffering)
                     throws InvalidEnrollmentRequest {
         // todo enrollment stuff ...including waitlist processing/notifications
-        return null;
+
+        if (classOffering.isFull()) {
+            processAddToWaitList(classOffering, student);
+            throw new InvalidEnrollmentRequest(
+                            String.format("Class [%s] is full; [%s] is waitlisted", classOffering, student.getName()));
+        }
+
+        var ec = EnrolledCourse.createEnrolledCourse(classOffering.getCourse(), classOffering.getSemester(),
+                        classOffering);
+
+        classOffering.addStudent(student);
+        student.addEnrolledCourse(ec);
+
+        return ec;
     }
 
     public EnrolledCourse dropCourse(@NonNull Student student, @NonNull EnrolledCourse enrolledCourse)

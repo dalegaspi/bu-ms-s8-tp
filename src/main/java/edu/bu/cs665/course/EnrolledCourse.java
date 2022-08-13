@@ -5,6 +5,12 @@ import edu.bu.cs665.grade.CourseGrade;
 
 import java.util.Collection;
 
+/**
+ * Enrolled course record for a Student
+ *
+ * @see edu.bu.cs665.person.Student
+ * @author dlegaspi@bu.edu
+ */
 public class EnrolledCourse extends AbstractEntityRelationship {
     private final Course course;
     private final Semester semester;
@@ -39,10 +45,15 @@ public class EnrolledCourse extends AbstractEntityRelationship {
     }
 
     public static int totalCoursesGrades(Collection<EnrolledCourse> enrolledCourses) {
-        return enrolledCourses.stream().map(c -> c.getGrade().getGradeValue()).mapToInt(Integer::intValue).sum();
+        return enrolledCourses.stream().map(c -> c.getGrade().getGradeValue() * c.getCourse().getUnits())
+                        .mapToInt(Integer::intValue).sum();
     }
 
     public ClassOffering getClassOffering() {
         return classOffering;
+    }
+
+    public static EnrolledCourse createEnrolledCourse(Course course, Semester semester, ClassOffering classOffering) {
+        return new EnrolledCourse(course, semester, classOffering);
     }
 }

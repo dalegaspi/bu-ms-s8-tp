@@ -53,4 +53,9 @@ public class Course extends AbstractEntity implements HyperTextMarkupFormatter {
     public static Elective createElectiveCourse(String code, String title, String description) {
         return new Elective(code, title, description);
     }
+
+    @Override
+    public String toString() {
+        return String.format("%s - %s", getId(), getTitle());
+    }
 }

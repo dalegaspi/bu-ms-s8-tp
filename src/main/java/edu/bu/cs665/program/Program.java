@@ -2,7 +2,9 @@ package edu.bu.cs665.program;
 
 import edu.bu.cs665.entity.AbstractEntity;
 
-public class Program extends AbstractEntity {
+public abstract class Program extends AbstractEntity {
+    public abstract int minimumYearsToComplete();
+
     private final String title;
 
     public Program(String title) {

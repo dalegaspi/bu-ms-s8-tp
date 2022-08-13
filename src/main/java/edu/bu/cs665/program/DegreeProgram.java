@@ -1,6 +1,7 @@
 package edu.bu.cs665.program;
 
-public class DegreeProgram extends Program {
+public abstract class DegreeProgram extends Program {
+
     private int totalCoreCourses;
     private int totalElectiveCourses;
 

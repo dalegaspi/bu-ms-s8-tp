@@ -42,8 +42,19 @@ public final class ComputerScienceDepartment extends Department {
 
         @Override
         public void addCoursesAndConcentrations() {
+            instance.createCoreCourse("CS521", "Information Structures with Python",
+                            "Information Structures with Python");
             instance.createCoreCourse("CS526", "Data Structures and Algorithms", "Data Structures and Algorithms");
+            instance.createCoreCourse("CS622", "Advanced Programming Techniques",
+                            "Advanced Programming Techniques");
+            instance.createCoreCourse("CS665", "Software Design and Patterns",
+                            "Software Design and Patterns");
+            instance.createCoreCourse("CS82", "Information Systems Analysis and Design",
+                            "Information Systems Analysis and Design");
+            instance.createElectiveCourse("CS601", "Web Application Development", "Web Application Development");
             instance.createElectiveCourse("CS669", "Database Design", "Database Design");
+            instance.createElectiveCourse("CS683", "Mobile Application Development with Android",
+                            "Mobile Application Development with Android");
         }
 
         @Override
@@ -75,6 +86,8 @@ public final class ComputerScienceDepartment extends Department {
         @Override
         public void addPrograms() {
             instance.addProgram(Program.createCertificateProgram("Chocolate Boiler Repair"));
+            instance.addProgram(Program.createUndergraduateProgram("Computer Science", 6, 2));
+            instance.addProgram(Program.createGraduateProgram("Software Development", 2, 2));
         }
 
         @SuppressWarnings("OptionalGetWithoutIsPresent")

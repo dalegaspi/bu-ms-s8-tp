@@ -1,6 +1,11 @@
 package edu.bu.cs665.program;
 
 public class UndergraduateProgram extends DegreeProgram {
+    @Override
+    public int minimumYearsToComplete() {
+        return 4;
+    }
+
     public UndergraduateProgram(String title) {
         super(title);
     }

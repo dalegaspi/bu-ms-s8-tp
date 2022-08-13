@@ -7,8 +7,7 @@ import edu.bu.cs665.person.Faculty;
 import edu.bu.cs665.person.Student;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class ClassOffering extends AbstractEntityRelationship {
     private final Course course;
@@ -16,7 +15,7 @@ public class ClassOffering extends AbstractEntityRelationship {
     private final Semester semester;
     private final int enrollmentLimit;
 
-    private final List<Student> students = new ArrayList<>();
+    private final Set<Student> students = new HashSet<>();
 
     public ClassOffering(Course course, Faculty professor, Semester semester, int enrollmentLimit) {
         this.course = course;
@@ -41,12 +40,20 @@ public class ClassOffering extends AbstractEntityRelationship {
         return enrollmentLimit;
     }
 
-    public List<Student> getStudents() {
+    public Collection<Student> getStudents() {
         return students;
     }
 
     public void addStudent(@NonNull final Student student) {
         students.add(student);
+    }
+
+    public void removeStudent(@NonNull final Student student) {
+        students.remove(student);
+    }
+
+    public boolean isFull() {
+        return getStudents().size() >= getEnrollmentLimit();
     }
 
     @Override

@@ -20,6 +20,11 @@ public class Semester extends AbstractEntity {
         return String.format("Semester-%d", getSemester(), getSchoolYear().getId());
     }
 
+    @Override
+    public String toString() {
+        return String.format("%d-%d", getSchoolYear().getYear(), getSemester());
+    }
+
     public int getSemester() {
         return semester;
     }

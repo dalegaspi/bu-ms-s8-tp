@@ -26,8 +26,17 @@ The output of the application runs under a JUnit test, so you can simply run usi
 $ gradle test 
 ```
 
-### Sample Output
+## Design and Implementation
 
-```
-INFO: Person created
-```
+### Assumptions
+
+- A member of the faculty cannot be a student.  In other words, a student named "John Doe" is treated as separate entity as faculty member "John Doe" even though realistically they can be referring to the same person.
+- A student takes courses in consecutive school years (no gap).
+
+### Notes 
+
+- Objects/classes are subclassed from `AbstractEntity` or `AbstractEntityRelationship` which implements a `getId()` method.  Since there is a lot of lookup in collections, this basic abstract classes overrides `Object::equals` to ensure value equality through their `getId()`.
+- Application relies on `java.util.logging` package to emit messages on the console.
+
+### Class Diagram
+### Design Patterns
