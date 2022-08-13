@@ -16,12 +16,17 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static edu.bu.cs665.EnrolledCourse.totalCoursesGrades;
+import static edu.bu.cs665.EnrolledCourse.totalCoursesUnits;
+
 /**
  * Abstract class for university department
  *
  * @author dlegaspi@bu.edu
  */
 public abstract class Department implements FacultyMessenger {
+
+    public final int DEFAULT_ENROLLMENT_LIMIT = 30;
     private static final Logger logger = Logger.getLogger(Department.class.getName());
 
     public abstract String getName();
@@ -126,6 +131,7 @@ public abstract class Department implements FacultyMessenger {
                         .orElseThrow(() -> new InvalidEnrollmentRequest(
                                         String.format("Program %s not found", programTitle)));
         student.setProgram(p);
+        student.setGpaComputeStrategy(getDefaultGpaComputeStrategy());
     }
 
     public Optional<Student> findStudent(String name) {
@@ -154,5 +160,12 @@ public abstract class Department implements FacultyMessenger {
     public void sendMessageToChairPerson(@NonNull Person sender, String subject, String message)
                     throws InvalidRecipientException {
         this.mailroom.sendMessageToChairPerson(sender, subject, message);
+    }
+
+    private GpaComputeStrategy getDefaultGpaComputeStrategy() {
+        // common GPA computation
+        return enrolledCourses -> totalCoursesUnits(enrolledCourses) > 0
+                        ? (double) totalCoursesGrades(enrolledCourses) / totalCoursesUnits(enrolledCourses)
+                        : 0;
     }
 }

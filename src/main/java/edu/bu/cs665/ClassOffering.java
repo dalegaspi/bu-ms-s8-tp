@@ -47,4 +47,10 @@ public class ClassOffering extends AbstractEntityRelationship {
     public void addStudent(@NonNull final Student student) {
         students.add(student);
     }
+
+    @Override
+    public String toString() {
+        return String.format("Class offering for [%s] Semester [%s] Professor [%s] Limit [%d]",
+                        getCourse(), getSemester(), getProfessor(), getEnrollmentLimit());
+    }
 }

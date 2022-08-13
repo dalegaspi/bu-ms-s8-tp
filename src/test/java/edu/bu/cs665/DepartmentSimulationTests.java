@@ -32,13 +32,15 @@ public class DepartmentSimulationTests {
     @DisplayName("Department Creation Tests")
     public void departmentCreation() throws InvalidEnrollmentRequest, InvalidRecipientException {
         var bu = BostonUniversity.getInstance();
-
         var cs = bu.findDepartment("Computer Science").orElseThrow();
 
+        // test student enrollment to a program
         var s = Person.createStudent("Robert Baratheon");
         cs.enrollProgram(s, "Chocolate Boiler Repair");
-
         assertNotNull(s.getProgram());
+
+        s.emitFullStatus();
+
         // testing the sending of query
         cs.sendMessageToChairPerson(s, "Hello", "World");
         assertTrue(cs.getChairPerson().getMailbox().hasMessages());
