@@ -1,9 +1,9 @@
 package edu.bu.cs665;
 
 import edu.bu.cs665.exceptions.InvalidRecipientException;
+import edu.bu.cs665.messaging.FacultyMessenger;
 import edu.bu.cs665.notifications.Event;
 import edu.bu.cs665.notifications.Observer;
-import edu.bu.cs665.notifications.Subject;
 import edu.bu.cs665.person.Faculty;
 import edu.bu.cs665.person.Person;
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -13,7 +13,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
  *
  * @author dlegaspi@bu.edu
  */
-public final class DepartmentMailRoom implements Observer<Event> {
+public final class DepartmentMailRoom implements Observer<Event>, FacultyMessenger {
     private final Department department;
 
     public DepartmentMailRoom(Department department, Registrar registrar) {

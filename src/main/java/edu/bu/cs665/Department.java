@@ -3,7 +3,10 @@ package edu.bu.cs665;
 import edu.bu.cs665.course.ConcentrationGroup;
 import edu.bu.cs665.course.SchoolYear;
 import edu.bu.cs665.exceptions.InvalidEnrollmentRequest;
+import edu.bu.cs665.exceptions.InvalidRecipientException;
+import edu.bu.cs665.messaging.FacultyMessenger;
 import edu.bu.cs665.person.Faculty;
+import edu.bu.cs665.person.Person;
 import edu.bu.cs665.person.Student;
 import edu.bu.cs665.program.Program;
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -17,9 +20,19 @@ import java.util.logging.Logger;
  *
  * @author dlegaspi@bu.edu
  */
-public abstract class Department {
+public abstract class Department implements FacultyMessenger {
 
-    private static Logger logger = Logger.getLogger(Department.class.getName());
+    public void sendMessageToFaculty(@NonNull Person sender, @NonNull Faculty recipient, String subject, String message)
+                    throws InvalidRecipientException {
+        this.mailroom.sendMessageToFaculty(sender, recipient, subject, message);
+    }
+
+    public void sendMessageToChairPerson(@NonNull Person sender, String subject, String message)
+                    throws InvalidRecipientException {
+        this.mailroom.sendMessageToChairPerson(sender, subject, message);
+    }
+
+    private static final Logger logger = Logger.getLogger(Department.class.getName());
 
     public abstract String getName();
 
