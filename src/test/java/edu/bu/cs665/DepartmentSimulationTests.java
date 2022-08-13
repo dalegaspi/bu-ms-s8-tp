@@ -89,6 +89,33 @@ public class DepartmentSimulationTests {
 
         var co = r.findClassOffering("CS665", sy2022.getSemester(1)).orElseThrow();
         assertNotNull(co);
+
+        // setup such that the ChairPerson's mailbox is empty
+        cs.getChairPerson().getMailbox().clearMessages();
+        assertFalse(cs.getChairPerson().getMailbox().hasMessages());
+
+        // 665 is filled with Sparrown and Barbossa enrolling the class
+        r.enrollCourse(s1, co);
+
+        // this triggers notification to ChairPerson
+        r.enrollCourse(s2, co);
+
+        // check that the ChairPerson has a notification
+        assertTrue(cs.getChairPerson().getMailbox().hasMessages());
+
+        // this expects the exception as Turner trying to enroll and s3 gets
+        // notification in the process
+        assertThrows(InvalidEnrollmentRequest.class, () -> r.enrollCourse(s3, co));
+
+        // Turner should have received some notification as result of waitlist
+        assertTrue(s3.getMailbox().hasMessages());
+
+        // Barbossa drops the course; this trigger auto-enrolling s3
+        var s2ec = s2.findEnrolledCourse("CS665").orElseThrow();
+        r.dropCourse(s2, s2ec);
+
+        // Turner should now have enrolled in 665
+        assertTrue(s3.findEnrolledCourse("CS665").isPresent());
     }
 
 }

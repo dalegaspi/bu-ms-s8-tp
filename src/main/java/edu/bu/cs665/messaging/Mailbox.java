@@ -46,6 +46,10 @@ public final class Mailbox {
         return messageCount() > 0;
     }
 
+    public void clearMessages() {
+        inbox.clear();
+    }
+
     public int messageCount() {
         return getMessages().size();
     }

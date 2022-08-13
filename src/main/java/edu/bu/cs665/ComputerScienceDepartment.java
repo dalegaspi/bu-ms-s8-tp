@@ -103,13 +103,13 @@ public final class ComputerScienceDepartment extends Department {
 
             // full-time faculty
             instance.addFaculty(Person.createFaculty("Thor Odinson", true));
-            instance.addFaculty(Person.createFaculty("Henry Pym", true));
+            instance.addFaculty(Person.createFaculty("Suresh Kalathur", true));
             instance.addFaculty(Person.createFaculty("Wanda Maximoff", true));
 
             // part-time faculty
             instance.addFaculty(Person.createFaculty("Pietro Maximoff", false));
             instance.addFaculty(Person.createFaculty("Simon Williams", false));
-            instance.addFaculty(Person.createFaculty("Maya Lopez", false));
+            instance.addFaculty(Person.createFaculty("Henry Pym", false));
         }
 
         @Override
@@ -124,7 +124,7 @@ public final class ComputerScienceDepartment extends Department {
             var sy2022 = SchoolYear.fromYear(2022);
 
             var faculty01 = instance.findFaculty("Thor Odinson").orElseThrow();
-            var faculty02 = instance.findFaculty("Maya Lopez").orElseThrow();
+            var faculty02 = instance.findFaculty("Suresh Kalathur").orElseThrow();
 
             var cs526 = instance.findCourse("CS526").orElseThrow();
             var cs669 = instance.findCourse("CS669").orElseThrow();

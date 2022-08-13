@@ -135,6 +135,8 @@ public final class Registrar implements Subject<Event> {
         waitlist.forEach(s -> {
             try {
                 enrollCourse(s, classOffering);
+                logger.info(String.format("Auto-enroll %s to %s successful", s.getName(),
+                                classOffering));
             } catch (InvalidEnrollmentRequest e) {
                 logger.warning(String.format("Unable to auto-enroll %s to %s due to error %s", s.getName(),
                                 classOffering, e.getMessage()));
