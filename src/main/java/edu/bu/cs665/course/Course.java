@@ -41,4 +41,16 @@ public class Course extends AbstractEntity implements HyperTextMarkupFormatter {
         var html = wrapTag(P, syllabus.getDescription());
         return fragment ? html : wrapTag(ROOT, html);
     }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public static Core createCoreCourse(String code, String title, String description) {
+        return new Core(code, title, description);
+    }
+
+    public static Elective createElectiveCourse(String code, String title, String description) {
+        return new Elective(code, title, description);
+    }
 }

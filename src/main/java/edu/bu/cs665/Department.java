@@ -1,8 +1,7 @@
 package edu.bu.cs665;
 
-import edu.bu.cs665.course.ClassOffering;
-import edu.bu.cs665.course.ConcentrationGroup;
-import edu.bu.cs665.course.SchoolYear;
+import edu.bu.cs665.course.*;
+import edu.bu.cs665.exceptions.InvalidClassOfferingState;
 import edu.bu.cs665.exceptions.InvalidEnrollmentRequest;
 import edu.bu.cs665.exceptions.InvalidRecipientException;
 import edu.bu.cs665.grade.GpaComputeStrategy;
@@ -28,7 +27,7 @@ import static edu.bu.cs665.course.EnrolledCourse.totalCoursesUnits;
  */
 public abstract class Department implements FacultyMessenger {
 
-    public final int DEFAULT_ENROLLMENT_LIMIT = 30;
+    public static final int DEFAULT_ENROLLMENT_LIMIT = 30;
     private static final Logger logger = Logger.getLogger(Department.class.getName());
 
     public abstract String getName();
@@ -46,7 +45,14 @@ public abstract class Department implements FacultyMessenger {
 
     protected final Registrar registrar = Registrar.getInstance();
 
+    public Registrar getRegistrar() {
+        return this.registrar;
+    }
+
     private final List<ConcentrationGroup> concentrationGroups = new ArrayList<>();
+
+    private final Set<Course> courses = new HashSet<>();
+
     private final Set<Program> programs = new HashSet<>();
 
     private final Set<Student> students = new HashSet<>();
@@ -140,14 +146,22 @@ public abstract class Department implements FacultyMessenger {
         return getStudents().stream().filter(f -> f.getName().equals(name)).findAny();
     }
 
+    public Set<Course> getCourses() {
+        return courses;
+    }
+
+    public Optional<Course> findCourse(String id) {
+        return getCourses().stream().filter(c -> c.getId().equals(id)).findAny();
+    }
+
     public interface DepartmentBuilder<T extends Department> {
-        void addConcentrations();
+        void addCoursesAndConcentrations();
 
         void addFaculty();
 
         void addPrograms();
 
-        void addCourses(SchoolYear year);
+        void addClassOfferings(SchoolYear year) throws InvalidClassOfferingState;
 
         T build();
     }
@@ -169,5 +183,19 @@ public abstract class Department implements FacultyMessenger {
         return enrolledCourses -> totalCoursesUnits(enrolledCourses) > 0
                         ? (double) totalCoursesGrades(enrolledCourses) / totalCoursesUnits(enrolledCourses)
                         : 0;
+    }
+
+    public Core createCoreCourse(String code, String title, String description) {
+        var c = new Core(code, title, description);
+        getCourses().add(c);
+
+        return c;
+    }
+
+    public Elective createElectiveCourse(String code, String title, String description) {
+        var c = new Elective(code, title, description);
+        getCourses().add(c);
+
+        return c;
     }
 }

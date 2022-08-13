@@ -1,9 +1,12 @@
 package edu.bu.cs665;
 
 import edu.bu.cs665.course.SchoolYear;
+import edu.bu.cs665.exceptions.SchoolException;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 /**
  * The university
@@ -11,21 +14,28 @@ import java.util.Optional;
  * @author dlegaspi@bu.edu
  */
 public final class BostonUniversity {
+    private static final Logger logger = Logger.getLogger(BostonUniversity.class.getName());
+
     private static final BostonUniversity instance = new BostonUniversity();
 
-    private List<Department> departments;
+    private final List<Department> departments;
 
     private BostonUniversity() {
         var builders = List.of(ComputerScienceDepartment.getInstance().getBuilder());
 
         // BU acts as the director of department builders
         this.departments = builders.stream().map(b -> {
-            b.addConcentrations();
-            b.addPrograms();
-            b.addFaculty();
-            b.addCourses(SchoolYear.fromCurrentYear());
-            return b.build();
-        }).toList();
+            try {
+                b.addCoursesAndConcentrations();
+                b.addPrograms();
+                b.addFaculty();
+                b.addClassOfferings(SchoolYear.fromCurrentYear());
+                return b.build();
+            } catch (SchoolException exception) {
+                logger.warning("Unable to create department: " + exception.getMessage());
+                return null;
+            }
+        }).filter(Objects::nonNull).toList();
     }
 
     public static BostonUniversity getInstance() {

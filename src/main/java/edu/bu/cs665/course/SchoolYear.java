@@ -26,7 +26,7 @@ public class SchoolYear extends AbstractEntity {
     }
 
     public Semester getSemester(int semester) {
-        assert semester > 0 && semester < semesters.size();
+        assert semester > 0 && semester <= semesters.size();
 
         return getSemesters().get(semester - 1);
     }

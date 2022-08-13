@@ -52,6 +52,7 @@ public class ClassOffering extends AbstractEntityRelationship {
     @Override
     public String toString() {
         return String.format("Class offering for [%s] Semester [%s] Professor [%s] Limit [%d]",
-                        getCourse(), getSemester(), getProfessor(), getEnrollmentLimit());
+                        getCourse().getTitle(), getSemester().getSemester(), getProfessor().getName(),
+                        getEnrollmentLimit());
     }
 }
