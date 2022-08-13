@@ -16,9 +16,7 @@ public class DepartmentSimulationTests {
     @DisplayName("Basic Tests")
     public void basicTests() {
         var bu = BostonUniversity.getInstance();
-
         var cs = bu.findDepartment("Computer Science");
-
         assertTrue(cs.isPresent());
 
         // testing equality
@@ -29,8 +27,8 @@ public class DepartmentSimulationTests {
     }
 
     @Test
-    @DisplayName("Department Creation Tests")
-    public void departmentCreation() throws InvalidEnrollmentRequest, InvalidRecipientException {
+    @DisplayName("Department Creation Basic Functionality Tests")
+    public void departmentCreationBasicFunctionalityTests() throws InvalidEnrollmentRequest, InvalidRecipientException {
         var bu = BostonUniversity.getInstance();
         var cs = bu.findDepartment("Computer Science").orElseThrow();
 
