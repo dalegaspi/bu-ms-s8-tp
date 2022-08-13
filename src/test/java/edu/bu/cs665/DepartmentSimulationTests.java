@@ -11,9 +11,12 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.logging.Logger;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class DepartmentSimulationTests {
+    private static final Logger logger = Logger.getLogger(DepartmentSimulationTests.class.getName());
 
     static BostonUniversity bu;
     static Department cs;
@@ -38,13 +41,22 @@ public class DepartmentSimulationTests {
     }
 
     @Test
+    @DisplayName("Composite Tests")
+    public void compositeTests() {
+        // demonstrate the format() via composite
+        cs.getConcentrations().forEach(c -> {
+            logger.info(c.format(true));
+        });
+    }
+
+    @Test
     @DisplayName("Department Creation Basic Functionality Tests")
     public void departmentCreationBasicFunctionalityTests() throws InvalidEnrollmentRequest, InvalidRecipientException {
         // test student enrollment to a program
         var sy2022 = SchoolYear.fromYear(2022);
 
         var s = Person.createStudent("Robert Baratheon");
-        cs.enrollProgram(s, "Chocolate Boiler Repair");
+        cs.enrollProgram(s, "Web Application Development");
         assertNotNull(s.getProgram());
 
         var co = r.findClassOffering("CS526", sy2022.getSemester(1)).orElseThrow();
@@ -63,9 +75,20 @@ public class DepartmentSimulationTests {
     }
 
     @Test
-    @DisplayName("Enrollment Simulation")
-    public void enrollmentSimulation() {
-        var p = new Student("Jack Sparrow");
+    @DisplayName("Enrollment Waitlist Simulation")
+    public void enrollmentWaitlistSimulation() throws InvalidEnrollmentRequest {
+        var sy2022 = SchoolYear.fromYear(2022);
+
+        var s1 = Person.createStudent("Jack Sparrow");
+        var s2 = Person.createStudent("Hector Barbossa");
+        var s3 = Person.createStudent("Will Turner");
+
+        cs.enrollProgram(s1, "Software Development");
+        cs.enrollProgram(s2, "Computer Science");
+        cs.enrollProgram(s3, "Web Application Development");
+
+        var co = r.findClassOffering("CS665", sy2022.getSemester(1)).orElseThrow();
+        assertNotNull(co);
     }
 
 }

@@ -1,5 +1,7 @@
 package edu.bu.cs665.person;
 
+import edu.bu.cs665.course.Concentration;
+
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;

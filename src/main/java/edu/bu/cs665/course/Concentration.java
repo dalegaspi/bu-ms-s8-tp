@@ -1,44 +1,34 @@
 package edu.bu.cs665.course;
 
-import edu.bu.cs665.course.Course;
+import edu.bu.cs665.ds.TreeNode;
 import edu.bu.cs665.formatting.HyperTextMarkupFormatter;
-import edu.bu.cs665.person.Faculty;
-import org.checkerframework.checker.nullness.qual.NonNull;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.Collectors;
 
 import static edu.bu.cs665.formatting.HyperTextMarkupFormatter.wrapTag;
 
 /**
- * Concentration
+ * Concentration hierarchy
  *
+ * @see CourseGroup
+ * @see TreeNode
  * @author dlegaspi@bu.edu
  */
-public class Concentration implements HyperTextMarkupFormatter {
-    private final List<Course> courses = new ArrayList<>();
-
-    private Faculty coordinator;
-
-    private final String name;
-
-    public String getName() {
-        return name;
-    }
-
-    public void addCourse(@NonNull Course course) {
-        courses.add(course);
-    }
-
-    public Concentration(@NonNull String name) {
-        this.name = name;
+public class Concentration extends TreeNode<CourseGroup> implements HyperTextMarkupFormatter {
+    public Concentration(CourseGroup data) {
+        super(data);
     }
 
     @Override
-    public String format(boolean fragment) {
-        var html = wrapTag(P, getName()) +
-                        courses.stream().map(c -> c.format(false)).collect(Collectors.joining());
-        return fragment ? html : wrapTag(ROOT, html);
+    public String format(boolean topLevel) {
+        String html = "";
+        if (!isLeaf()) {
+            html += wrapTag(P, data.getName()) +
+                            children.stream().map(c -> ((Concentration) c).format(false)).collect(Collectors.joining());
+        } else {
+            html += wrapTag(P, data.getName()) + data.format(false);
+        }
+
+        return !topLevel ? html : wrapTag(ROOT, html);
     }
 }

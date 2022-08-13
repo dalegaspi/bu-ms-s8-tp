@@ -37,9 +37,9 @@ public class Course extends AbstractEntity implements HyperTextMarkupFormatter {
     }
 
     @Override
-    public String format(boolean fragment) {
+    public String format(boolean topLevel) {
         var html = wrapTag(P, syllabus.getDescription());
-        return fragment ? html : wrapTag(ROOT, html);
+        return !topLevel ? html : wrapTag(ROOT, html);
     }
 
     public String getTitle() {

@@ -26,10 +26,10 @@ public final class BostonUniversity {
         // BU acts as the director of department builders
         this.departments = builders.stream().map(b -> {
             try {
-                b.addCoursesAndConcentrations();
                 b.addPrograms();
                 b.addFaculty();
-                b.addClassOfferings(SchoolYear.fromCurrentYear());
+                b.addCoursesAndConcentrations();
+                b.addClassOfferings();
                 return b.build();
             } catch (SchoolException exception) {
                 logger.warning("Unable to create department: " + exception.getMessage());

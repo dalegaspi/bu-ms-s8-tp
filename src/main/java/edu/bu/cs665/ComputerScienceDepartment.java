@@ -1,13 +1,12 @@
 package edu.bu.cs665;
 
-import edu.bu.cs665.course.ClassOffering;
-import edu.bu.cs665.course.Course;
-import edu.bu.cs665.course.SchoolYear;
+import edu.bu.cs665.course.*;
 import edu.bu.cs665.exceptions.InvalidClassOfferingState;
 import edu.bu.cs665.person.Person;
 import edu.bu.cs665.program.Program;
 
 import java.awt.event.WindowStateListener;
+import java.util.List;
 import java.util.logging.Logger;
 
 /**
@@ -42,19 +41,49 @@ public final class ComputerScienceDepartment extends Department {
 
         @Override
         public void addCoursesAndConcentrations() {
-            instance.createCoreCourse("CS521", "Information Structures with Python",
+            var cs521 = instance.createCoreCourse("CS521", "Information Structures with Python",
                             "Information Structures with Python");
-            instance.createCoreCourse("CS526", "Data Structures and Algorithms", "Data Structures and Algorithms");
-            instance.createCoreCourse("CS622", "Advanced Programming Techniques",
+            var cs526 = instance.createCoreCourse("CS526", "Data Structures and Algorithms",
+                            "Data Structures and Algorithms");
+            var cs622 = instance.createCoreCourse("CS622", "Advanced Programming Techniques",
                             "Advanced Programming Techniques");
-            instance.createCoreCourse("CS665", "Software Design and Patterns",
+            var cs665 = instance.createCoreCourse("CS665", "Software Design and Patterns",
                             "Software Design and Patterns");
-            instance.createCoreCourse("CS82", "Information Systems Analysis and Design",
+            var cs682 = instance.createCoreCourse("CS82", "Information Systems Analysis and Design",
                             "Information Systems Analysis and Design");
-            instance.createElectiveCourse("CS601", "Web Application Development", "Web Application Development");
-            instance.createElectiveCourse("CS669", "Database Design", "Database Design");
-            instance.createElectiveCourse("CS683", "Mobile Application Development with Android",
+            var cs601 = instance.createElectiveCourse("CS601", "Web Application Development",
+                            "Web Application Development");
+            var cs669 = instance.createElectiveCourse("CS669", "Database Design", "Database Design");
+            var cs683 = instance.createElectiveCourse("CS683", "Mobile Application Development with Android",
                             "Mobile Application Development with Android");
+
+            var cg01 = new CourseGroup("Systems and Algorithm", List.of(cs526, cs665, cs682));
+            var cg02 = new CourseGroup("Programming Languages", List.of());
+            var cg03 = new CourseGroup("Object-Oriented Programming", List.of(cs521, cs622));
+            var cg04 = new CourseGroup("Mobile and Web Development", List.of(cs601, cs683));
+            var cg05 = new CourseGroup("Databases", List.of(cs669));
+
+            var c01 = new Concentration(cg01);
+            var c02 = new Concentration(cg02);
+            var c03 = new Concentration(cg03);
+            var c04 = new Concentration(cg04);
+            var c05 = new Concentration(cg05);
+
+            // sub-concentrations
+            c02.add(c03);
+            c02.add(c04);
+
+            // top-level concentrations are for the chairperson
+            cg01.setCoordinator(instance.getChairPerson());
+            cg02.setCoordinator(instance.getChairPerson());
+            cg05.setCoordinator(instance.getChairPerson());
+
+            cg03.setCoordinator(instance.findFaculty("Henry Pym").orElseThrow());
+            cg04.setCoordinator(instance.findFaculty("Wanda Maximoff").orElseThrow());
+
+            instance.addConcentration(c01);
+            instance.addConcentration(c02);
+            instance.addConcentration(c05);
         }
 
         @Override
@@ -85,26 +114,31 @@ public final class ComputerScienceDepartment extends Department {
 
         @Override
         public void addPrograms() {
-            instance.addProgram(Program.createCertificateProgram("Chocolate Boiler Repair"));
+            instance.addProgram(Program.createCertificateProgram("Web Application Development"));
             instance.addProgram(Program.createUndergraduateProgram("Computer Science", 6, 2));
             instance.addProgram(Program.createGraduateProgram("Software Development", 2, 2));
         }
 
         @Override
-        public void addClassOfferings(SchoolYear year) throws InvalidClassOfferingState {
-            var sy2021 = SchoolYear.fromYear(2021);
+        public void addClassOfferings() throws InvalidClassOfferingState {
             var sy2022 = SchoolYear.fromYear(2022);
 
             var faculty01 = instance.findFaculty("Thor Odinson").orElseThrow();
             var faculty02 = instance.findFaculty("Maya Lopez").orElseThrow();
 
-            var cs526 = instance.findCourse("CS526").get();
-            var cs669 = instance.findCourse("CS669").get();
+            var cs526 = instance.findCourse("CS526").orElseThrow();
+            var cs669 = instance.findCourse("CS669").orElseThrow();
+            var cs683 = instance.findCourse("CS683").orElseThrow();
+            var cs665 = instance.findCourse("CS665").orElseThrow();
 
-            var offering01 = instance.getRegistrar()
-                            .createClassOffering(cs526, faculty01, sy2022.getSemester(1), DEFAULT_ENROLLMENT_LIMIT);
-            var offering02 = instance.getRegistrar()
-                            .createClassOffering(cs669, faculty02, sy2022.getSemester(2), DEFAULT_ENROLLMENT_LIMIT);
+            instance.getRegistrar().createClassOffering(cs526, faculty01, sy2022.getSemester(1),
+                            DEFAULT_ENROLLMENT_LIMIT);
+            instance.getRegistrar().createClassOffering(cs665, faculty02, sy2022.getSemester(1),
+                            DEFAULT_ENROLLMENT_LIMIT);
+            instance.getRegistrar().createClassOffering(cs683, faculty01, sy2022.getSemester(2),
+                            DEFAULT_ENROLLMENT_LIMIT);
+            instance.getRegistrar().createClassOffering(cs669, faculty02, sy2022.getSemester(2),
+                            DEFAULT_ENROLLMENT_LIMIT);
         }
 
         public ComputerScienceDepartment build() {

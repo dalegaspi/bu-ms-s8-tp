@@ -22,6 +22,6 @@ public class TreeNode<T> {
     }
 
     public boolean isLeaf() {
-        return children.size() > 0;
+        return children.size() == 0;
     }
 }

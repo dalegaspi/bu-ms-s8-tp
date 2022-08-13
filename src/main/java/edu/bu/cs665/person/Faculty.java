@@ -1,9 +1,6 @@
 package edu.bu.cs665.person;
 
-import edu.bu.cs665.course.ClassOffering;
-import edu.bu.cs665.course.Course;
-import edu.bu.cs665.course.Concentration;
-import edu.bu.cs665.course.Semester;
+import edu.bu.cs665.course.*;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.*;
@@ -12,6 +9,16 @@ import java.util.stream.Collectors;
 
 public class Faculty extends Employee {
     private final static Logger logger = Logger.getLogger(Faculty.class.getName());
+
+    private final Set<Concentration> coordinatedConcentrations = new HashSet<>();
+
+    public Collection<Concentration> getCoordinatedConcentrations() {
+        return coordinatedConcentrations;
+    }
+
+    public void addCoordinatedConcentration(Concentration concentration) {
+        coordinatedConcentrations.add(concentration);
+    }
 
     private boolean fullTime;
 
@@ -27,16 +34,7 @@ public class Faculty extends Employee {
         this.fullTime = fullTime;
     }
 
-    private List<Concentration> coordinatedConcentrations = new ArrayList<>();
     private final Set<ClassOffering> classesTaught = new HashSet<>();
-
-    public List<Concentration> getCoordinatedConcentrations() {
-        return coordinatedConcentrations;
-    }
-
-    public void setCoordinatedConcentrations(List<Concentration> coordinatedConcentrations) {
-        this.coordinatedConcentrations = coordinatedConcentrations;
-    }
 
     private final Map<Semester, Set<Student>> advisedStudents = new HashMap<>();
 

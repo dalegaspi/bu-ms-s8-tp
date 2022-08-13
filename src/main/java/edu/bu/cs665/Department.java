@@ -3,7 +3,6 @@ package edu.bu.cs665;
 import edu.bu.cs665.course.*;
 import edu.bu.cs665.exceptions.InvalidClassOfferingState;
 import edu.bu.cs665.exceptions.InvalidEnrollmentRequest;
-import edu.bu.cs665.exceptions.InvalidEnrollmentState;
 import edu.bu.cs665.exceptions.InvalidRecipientException;
 import edu.bu.cs665.grade.CourseGrade;
 import edu.bu.cs665.grade.GpaComputeStrategy;
@@ -53,7 +52,7 @@ public abstract class Department implements FacultyMessenger {
         return this.registrar;
     }
 
-    private final List<ConcentrationGroup> concentrationGroups = new ArrayList<>();
+    private final Set<Concentration> concentrations = new HashSet<>();
 
     private final Set<Course> courses = new HashSet<>();
 
@@ -121,8 +120,12 @@ public abstract class Department implements FacultyMessenger {
         getPrograms().add(program);
     }
 
-    public List<ConcentrationGroup> getConcentrationGroups() {
-        return concentrationGroups;
+    public Collection<Concentration> getConcentrations() {
+        return concentrations;
+    }
+
+    public void addConcentration(Concentration c) {
+        concentrations.add(c);
     }
 
     public Collection<ClassOffering> getClassOfferings() {
@@ -187,7 +190,7 @@ public abstract class Department implements FacultyMessenger {
 
         void addPrograms();
 
-        void addClassOfferings(SchoolYear year) throws InvalidClassOfferingState;
+        void addClassOfferings() throws InvalidClassOfferingState;
 
         T build();
     }

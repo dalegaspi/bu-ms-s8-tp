@@ -6,17 +6,17 @@ package edu.bu.cs665.formatting;
  * @author dlegaspi@bu.edu
  */
 public interface HyperTextMarkupFormatter {
-    String format(boolean fragment);
+    String format(boolean topLevel);
 
-    public static final String P = "p";
-    public static final String ROOT = "html";
+    String P = "p";
+    String ROOT = "html";
 
     static String wrapTag(String tag, String element) {
         return startTag(tag) + element + endTag(tag);
     }
 
     static String startTag(String tag) {
-        return String.format("<%s>\n", tag);
+        return String.format("<%s>", tag);
     }
 
     static String endTag(String tag) {

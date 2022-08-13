@@ -128,9 +128,26 @@ public final class Registrar implements Subject<Event> {
         return ec;
     }
 
+    private void processRemoveFromWaitList(ClassOffering classOffering) {
+        var waitlist = classOfferingWaitList.getOrDefault(classOffering, Set.of());
+
+        // auto-enrollment
+        waitlist.forEach(s -> {
+            try {
+                enrollCourse(s, classOffering);
+            } catch (InvalidEnrollmentRequest e) {
+                logger.warning(String.format("Unable to auto-enroll %s to %s due to error %s", s.getName(),
+                                classOffering, e.getMessage()));
+            }
+        });
+    }
+
     public EnrolledCourse dropCourse(@NonNull Student student, @NonNull EnrolledCourse enrolledCourse)
                     throws InvalidEnrollmentRequest {
-        // todo drop course stuff ...including auto-enrollment
+
+        enrolledCourse.getClassOffering().removeStudent(student);
+        student.removeCourse(enrolledCourse);
+        processRemoveFromWaitList(enrolledCourse.getClassOffering());
         return enrolledCourse;
     }
 
