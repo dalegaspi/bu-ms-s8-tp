@@ -8,7 +8,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Mailbox for receiving queries
+ * Mailbox for receiving queries/notifications
  *
  * @author dlegaspi@bu.edu
  */
@@ -40,5 +40,13 @@ public final class Mailbox {
 
     public List<Message> getMessages() {
         return this.inbox;
+    }
+
+    public boolean hasMessages() {
+        return messageCount() > 0;
+    }
+
+    public int messageCount() {
+        return getMessages().size();
     }
 }

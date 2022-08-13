@@ -122,10 +122,10 @@ public abstract class Department implements FacultyMessenger {
     }
 
     public void enrollProgram(Student student, String programTitle) throws InvalidEnrollmentRequest {
-        findProgram(programTitle).map(p -> {
-            student.setProgram(p);
-            return true;
-        }).orElseThrow(() -> new InvalidEnrollmentRequest(String.format("Program %s not found", programTitle)));
+        var p = findProgram(programTitle)
+                        .orElseThrow(() -> new InvalidEnrollmentRequest(
+                                        String.format("Program %s not found", programTitle)));
+        student.setProgram(p);
     }
 
     public Optional<Student> findStudent(String name) {

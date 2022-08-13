@@ -8,8 +8,7 @@ import edu.bu.cs665.person.Student;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class DepartmentSimulationTests {
 
@@ -38,9 +37,11 @@ public class DepartmentSimulationTests {
 
         var s = Person.createStudent("Robert Baratheon");
         cs.enrollProgram(s, "Chocolate Boiler Repair");
-        cs.sendMessageToChairPerson(s, "Hello", "World");
 
-        assertTrue(cs.getChairPerson().getMailbox().getMessages().size() > 0);
+        assertNotNull(s.getProgram());
+        // testing the sending of query
+        cs.sendMessageToChairPerson(s, "Hello", "World");
+        assertTrue(cs.getChairPerson().getMailbox().hasMessages());
     }
 
     @Test
