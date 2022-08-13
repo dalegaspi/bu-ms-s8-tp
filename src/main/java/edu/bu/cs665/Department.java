@@ -30,7 +30,7 @@ import static edu.bu.cs665.course.EnrolledCourse.totalCoursesUnits;
  */
 public abstract class Department implements FacultyMessenger {
 
-    public static final int DEFAULT_ENROLLMENT_LIMIT = 30;
+    public static final int DEFAULT_ENROLLMENT_LIMIT = 2;
     private static final Logger logger = Logger.getLogger(Department.class.getName());
 
     public abstract String getName();
@@ -39,6 +39,7 @@ public abstract class Department implements FacultyMessenger {
 
     public Department() {
         mailroom = DepartmentMailRoom.getInstance(this, registrar);
+        registrar.setDepartment(this);
     }
 
     private Faculty chairPerson;
@@ -159,23 +160,20 @@ public abstract class Department implements FacultyMessenger {
 
     public void addThesis(@NonNull Student student, @NonNull Thesis thesis, @NonNull Semester semester, Faculty advisor)
                     throws InvalidEnrollmentRequest {
-        try {
-            if (!student.isInFinalYear())
-                throw new InvalidEnrollmentRequest("Cannot assign thesis if student is not in final year of program");
 
-            if (advisor != null) {
-                if (!getFaculty().contains(advisor))
-                    throw new InvalidEnrollmentRequest("Requested thesis advisor is not member of faculty");
+        if (!student.isInFinalYear())
+            throw new InvalidEnrollmentRequest("Cannot assign thesis if student is not in final year of program");
 
-                if (!advisor.isFullTime())
-                    throw new InvalidEnrollmentRequest("Requested thesis advisor is not full-time member of faculty");
-            }
+        if (advisor != null) {
+            if (!getFaculty().contains(advisor))
+                throw new InvalidEnrollmentRequest("Requested thesis advisor is not member of faculty");
 
-            thesis.setAdvisor(advisor);
-            student.setThesis(thesis);
-        } catch (InvalidEnrollmentState e) {
-            throw new InvalidEnrollmentRequest("Cannot assign thesis due to error: " + e.getMessage(), e);
+            if (!advisor.isFullTime())
+                throw new InvalidEnrollmentRequest("Requested thesis advisor is not full-time member of faculty");
         }
+
+        thesis.setAdvisor(advisor);
+        student.setThesis(thesis);
     }
 
     public void assignGrade(Student student, String courseId, CourseGrade grade) {

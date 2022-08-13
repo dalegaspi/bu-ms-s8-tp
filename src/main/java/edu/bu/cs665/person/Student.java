@@ -104,12 +104,12 @@ public class Student extends Person {
     }
 
     public void emitFullStatus() {
-        logger.info(getFullStatus());
+        logger.info("\n-----\n" + getFullStatus() + "\n-----");
     }
 
-    public boolean isInFinalYear() throws InvalidEnrollmentState {
+    public boolean isInFinalYear() {
         if (getProgram() == null) {
-            throw new InvalidEnrollmentState("Student is not enrolled in any program");
+            throw new IllegalStateException("Student is not enrolled in any program");
         }
 
         var distinctYearsCount = getEnrolledCourses().stream().map(c -> c.getSemester().getSchoolYear()).distinct()

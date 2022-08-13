@@ -41,11 +41,13 @@ public class EnrolledCourse extends AbstractEntityRelationship {
     }
 
     public static int totalCoursesUnits(Collection<EnrolledCourse> enrolledCourses) {
-        return enrolledCourses.stream().map(c -> c.getCourse().getUnits()).mapToInt(Integer::intValue).sum();
+        return enrolledCourses.stream().filter(c -> c.getGrade() != null).map(c -> c.getCourse().getUnits())
+                        .mapToInt(Integer::intValue).sum();
     }
 
     public static int totalCoursesGrades(Collection<EnrolledCourse> enrolledCourses) {
-        return enrolledCourses.stream().map(c -> c.getGrade().getGradeValue() * c.getCourse().getUnits())
+        return enrolledCourses.stream().filter(c -> c.getGrade() != null)
+                        .map(c -> c.getGrade().getGradeValue() * c.getCourse().getUnits())
                         .mapToInt(Integer::intValue).sum();
     }
 

@@ -48,8 +48,6 @@ public final class DepartmentMailRoom implements Observer<Event>, FacultyMesseng
 
     @Override
     public void accept(Event event) {
-        if (event.getRecipient() instanceof Faculty) {
-            sendMessage(mailroomSender, event.getRecipient(), event.getSubject(), event.getDescription());
-        }
+        sendMessage(mailroomSender, event.getRecipient(), event.getSubject(), event.getDescription());
     }
 }

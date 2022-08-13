@@ -67,7 +67,7 @@ public class Faculty extends Employee {
         msg += getClassesTaught(semester).stream().map(c -> String.format("- %s\n", c)).collect(Collectors.joining());
         msg += String.format("Advised Students for Semester %s:\n", semester);
         if (getAdvisedStudents(semester).isEmpty()) {
-            msg += "- None\n";
+            msg += "- None";
         } else {
             msg += getAdvisedStudents(semester).stream().map(s -> String.format("- %s\n", s.getName()))
                             .collect(Collectors.joining());
@@ -77,6 +77,6 @@ public class Faculty extends Employee {
     }
 
     public void emitFullStatus(@NonNull Semester semester) {
-        logger.info(getFullStatus(semester));
+        logger.info("\n-----\n" + getFullStatus(semester) + "\n-----");
     }
 }

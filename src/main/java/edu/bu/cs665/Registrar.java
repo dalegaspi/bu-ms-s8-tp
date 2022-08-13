@@ -1,9 +1,6 @@
 package edu.bu.cs665;
 
-import edu.bu.cs665.course.ClassOffering;
-import edu.bu.cs665.course.Course;
-import edu.bu.cs665.course.EnrolledCourse;
-import edu.bu.cs665.course.Semester;
+import edu.bu.cs665.course.*;
 import edu.bu.cs665.exceptions.InvalidClassOfferingState;
 import edu.bu.cs665.exceptions.InvalidEnrollmentRequest;
 import edu.bu.cs665.notifications.Event;
@@ -26,15 +23,15 @@ import java.util.logging.Logger;
 public final class Registrar implements Subject<Event> {
     private static final Logger logger = Logger.getLogger(Registrar.class.getName());
 
-    public static final Registrar instance = new Registrar();
-
     public Registrar() {
         this.classOfferings = new ArrayList<>();
     }
 
     public static Registrar getInstance() {
-        return instance;
+        return new Registrar();
     }
+
+    private Department department;
 
     private final List<ClassOffering> classOfferings;
 
@@ -97,16 +94,22 @@ public final class Registrar implements Subject<Event> {
         var subj = "Waitlist notification";
         var msg = String.format("You are waitlisted for Class %s", classOffering);
         var e = createEvent(subj, msg, student);
+        notifyObservers(e);
     }
 
     public EnrolledCourse enrollCourse(@NonNull Student student, @NonNull ClassOffering classOffering)
                     throws InvalidEnrollmentRequest {
         // todo enrollment stuff ...including waitlist processing/notifications
 
+        if (classOffering.getCourse() instanceof Elective && !student.isInFinalYear()) {
+            throw new InvalidEnrollmentRequest("Cannot enroll elective course if not in final year of program");
+        }
+
         if (classOffering.isFull()) {
             processAddToWaitList(classOffering, student);
             throw new InvalidEnrollmentRequest(
-                            String.format("Class [%s] is full; [%s] is waitlisted", classOffering, student.getName()));
+                            String.format("Class [%s] is full; [%s] is waitlisted", classOffering,
+                                            student.getName()));
         }
 
         var ec = EnrolledCourse.createEnrolledCourse(classOffering.getCourse(), classOffering.getSemester(),
@@ -114,6 +117,13 @@ public final class Registrar implements Subject<Event> {
 
         classOffering.addStudent(student);
         student.addEnrolledCourse(ec);
+
+        if (classOffering.isFull()) {
+            // notify chairperson that class is full
+            var e = new Event("Course Offering Full", String.format("Course offering %s is full", classOffering),
+                            getDepartment().getChairPerson());
+            notifyObservers(e);
+        }
 
         return ec;
     }
@@ -143,5 +153,13 @@ public final class Registrar implements Subject<Event> {
 
     private Event createEvent(String subject, String message, Person recipient) {
         return new Event(subject, message, recipient);
+    }
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
     }
 }
