@@ -1,0 +1,37 @@
+@startuml
+
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+class ComputerScienceDepartment {
+  - instance: ComputerScienceDepartment
+   name: String
+   instance: Department
+   builder: DepartmentBuilder<T>
+}
+class Department {
+  - registrar: Registrar
+  - courses: Set<Course>
+  - concentrations: Set<Concentration>
+  - students: Set<Student>
+  - programs: Set<Program>
+  - chairPerson: Faculty
+  - faculty: Set<Faculty>
+   name: String
+   builder: DepartmentBuilder<T>
+   faculty: Collection<Faculty>
+   courses: Set<Course>
+   programs: Collection<Program>
+   defaultGpaComputeStrategy: GpaComputeStrategy
+   students: Collection<Student>
+   chairPerson: Faculty
+   classOfferings: Collection<ClassOffering>
+   registrar: Registrar
+   concentrations: Collection<Concentration>
+}
+
+ComputerScienceDepartment "1" *-[#595959,plain]-> "instance\n1" ComputerScienceDepartment 
+ComputerScienceDepartment  -[#595959,dashed]->  ComputerScienceDepartment : "«create»"
+ComputerScienceDepartment  -[#000082,plain]-^  Department                
+@enduml

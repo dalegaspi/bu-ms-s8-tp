@@ -1,0 +1,46 @@
+@startuml
+
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+class Concentration {
+  + format(boolean): String
+}
+class Course {
+  + UNITS: int
+  - description: String
+  - title: String
+  + toString(): String
+  + createCoreCourse(String, String, String): Core
+  + createElectiveCourse(String, String, String): Elective
+  + format(boolean): String
+   description: String
+   title: String
+   id: String
+   UNITS: int
+}
+class CourseGroup {
+  - name: String
+  - coordinator: Faculty
+  + format(boolean): String
+  + addCourse(Course): void
+   coordinator: Faculty
+   name: String
+}
+class Syllabus {
+  - description: String
+  + createBasicSyllabus(Course): Syllabus
+   description: String
+}
+class TreeNode<T> {
+  + add(TreeNode<T>): void
+   leaf: boolean
+}
+
+Concentration  -[#000082,plain]-^  TreeNode      
+Course        "1" *-[#595959,plain]-> "syllabus\n1" Syllabus      
+CourseGroup   "1" *-[#595959,plain]-> "courses\n*" Course        
+Syllabus       -[#595959,dashed]->  Syllabus      : "«create»"
+TreeNode      "1" *-[#595959,plain]-> "children\n*" TreeNode      
+@enduml

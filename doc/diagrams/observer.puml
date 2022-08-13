@@ -1,0 +1,60 @@
+@startuml
+
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+class DepartmentMailRoom {
+  + sendMessageToChairPerson(Person, String, String): void
+  + accept(Event): void
+  + getInstance(Department, Registrar): DepartmentMailRoom
+  + sendMessage(Person, Person, String, String): void
+  + sendMessageToFaculty(Person, Faculty, String, String): void
+}
+class Event {
+  - subject: String
+  - description: String
+  - recipient: Person
+  - properties: Map<String, String>
+   description: String
+   recipient: Person
+   properties: Map<String, String>
+   subject: String
+}
+interface Observer<T> << interface >>
+class Registrar {
+  - department: Department
+  - classOfferings: List<ClassOffering>
+  + dropCourse(Student, EnrolledCourse): EnrolledCourse
+  + removeObserver(Observer<Event>): void
+  + findClassOffering(String, Semester): Optional<ClassOffering>
+  - addToWaitList(ClassOffering, Student): void
+  - removeFromWaitList(ClassOffering, Student): void
+  + notifyObservers(Event): void
+  - processRemoveFromWaitList(ClassOffering): void
+  + registerObserver(Observer<Event>): void
+  + addOffering(ClassOffering): void
+  + processAddToWaitList(ClassOffering, Student): void
+  + createClassOffering(Course, Faculty, Semester, int): ClassOffering
+  - createEvent(String, String, Person): Event
+  + enrollCourse(Student, ClassOffering): EnrolledCourse
+  - facultyExceedsClasses(Faculty, long): boolean
+   classOfferings: Collection<ClassOffering>
+   department: Department
+   instance: Registrar
+}
+interface Subject<T> << interface >> {
+  + registerObserver(Observer<T>): void
+  + notifyObservers(T): void
+  + removeObserver(Observer<T>): void
+}
+
+DepartmentMailRoom  -[#595959,dashed]->  DepartmentMailRoom : "«create»"
+DepartmentMailRoom  -[#008200,dashed]-^  Observer           
+Observer            -[#595959,dashed]->  Event              
+Registrar           -[#595959,dashed]->  Event              : "«create»"
+Registrar          "1" *-[#595959,plain]-> "observers\n*" Observer           
+Registrar           -[#595959,dashed]->  Registrar          : "«create»"
+Registrar           -[#008200,dashed]-^  Subject            
+Subject             -[#595959,dashed]->  Event              
+@enduml

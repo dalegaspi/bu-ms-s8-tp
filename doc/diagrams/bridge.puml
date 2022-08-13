@@ -1,0 +1,87 @@
+@startuml
+
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+class Department {
+  - registrar: Registrar
+  - courses: Set<Course>
+  - concentrations: Set<Concentration>
+  - students: Set<Student>
+  - programs: Set<Program>
+  - chairPerson: Faculty
+  - faculty: Set<Faculty>
+  + addThesis(Student, Thesis, Semester, Faculty): void
+  + getUnderGraduateAdvisor(SchoolYear): Optional<Faculty>
+  + findCourse(String): Optional<Course>
+  + addGraduateAdvisor(SchoolYear, Faculty): void
+  + findFaculty(String): Optional<Faculty>
+  + addFaculty(Faculty): void
+  + addUnderGraduateAdvisor(SchoolYear, Faculty): void
+  + sendMessageToChairPerson(Person, String, String): void
+  + assignGrade(Student, String, CourseGrade): void
+  + sendMessageToFaculty(Person, Faculty, String, String): void
+  + getGraduateAdvisor(SchoolYear): Optional<Faculty>
+  + enrollProgram(Student, String): void
+  + createElectiveCourse(String, String, String): Elective
+  + enrollProgram(Student, Program): void
+  + findProgram(String): Optional<Program>
+  + findStudent(String): Optional<Student>
+  + createCoreCourse(String, String, String): Core
+  + addProgram(Program): void
+  + addConcentration(Concentration): void
+   name: String
+   builder: DepartmentBuilder<T>
+   faculty: Collection<Faculty>
+   courses: Set<Course>
+   programs: Collection<Program>
+   defaultGpaComputeStrategy: GpaComputeStrategy
+   students: Collection<Student>
+   chairPerson: Faculty
+   classOfferings: Collection<ClassOffering>
+   registrar: Registrar
+   concentrations: Collection<Concentration>
+}
+interface DepartmentBuilder<T> << interface >> {
+  + addClassOfferings(): void
+  + addCoursesAndConcentrations(): void
+  + addFaculty(): void
+  + addPrograms(): void
+  + build(): T
+}
+class DepartmentMailRoom {
+  + sendMessageToChairPerson(Person, String, String): void
+  + accept(Event): void
+  + getInstance(Department, Registrar): DepartmentMailRoom
+  + sendMessage(Person, Person, String, String): void
+  + sendMessageToFaculty(Person, Faculty, String, String): void
+}
+interface FacultyMessenger << interface >> {
+  + sendMessageToChairPerson(Person, String, String): void
+  + sendMessageToFaculty(Person, Faculty, String, String): void
+}
+class Mailbox {
+  + addMessage(Person, String, String): void
+  + hasMessages(): boolean
+  + clearMessages(): void
+  + messageCount(): int
+   messages: List<Message>
+}
+entity Message << record >> {
+  + subject(): String
+  + toString(): String
+  + sender(): Person
+  + message(): String
+}
+
+Department         "1" *-[#595959,plain]-> "mailroom\n1" DepartmentMailRoom 
+Department          -[#008200,dashed]-^  FacultyMessenger   
+DepartmentBuilder   +-[#820000,plain]-  Department         
+DepartmentMailRoom "1" *-[#595959,plain]-> "department\n1" Department         
+DepartmentMailRoom  -[#595959,dashed]->  DepartmentMailRoom : "«create»"
+DepartmentMailRoom  -[#008200,dashed]-^  FacultyMessenger   
+Mailbox             -[#595959,dashed]->  Message            : "«create»"
+Mailbox            "1" *-[#595959,plain]-> "inbox\n*" Message            
+Message             +-[#820000,plain]-  Mailbox            
+@enduml

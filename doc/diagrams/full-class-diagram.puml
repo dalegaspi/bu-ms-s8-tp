@@ -1,0 +1,472 @@
+@startuml
+
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+class AbstractEntity {
+  # id: String
+  + hashCode(): int
+  + generateId(): String
+  + equals(Object): boolean
+   id: String
+}
+class AbstractEntityRelationship {
+  # id: String
+  + generateId(): String
+  + equals(Object): boolean
+  + hashCode(): int
+   id: String
+}
+class Advisor {
+  + description(): String
+   instance: Title
+}
+class BostonUniversity {
+  - departments: List<Department>
+  - instance: BostonUniversity
+  + findDepartment(String): Optional<Department>
+   instance: BostonUniversity
+   departments: List<Department>
+}
+class CertificateProgram {
+  + minimumYearsToComplete(): int
+  + toString(): String
+}
+class ChairPerson {
+  + description(): String
+   instance: Title
+}
+class ClassOffering {
+  - students: Set<Student>
+  - course: Course
+  - semester: Semester
+  - professor: Faculty
+  - enrollmentLimit: int
+  + toString(): String
+  + removeStudent(Student): void
+  + addStudent(Student): void
+   course: Course
+   students: Collection<Student>
+   professor: Faculty
+   semester: Semester
+   full: boolean
+   enrollmentLimit: int
+}
+class ComputerScienceDepartment {
+  - instance: ComputerScienceDepartment
+   name: String
+   instance: Department
+   builder: DepartmentBuilder<T>
+}
+class ComputerScienceDepartmentBuilder {
+  + addPrograms(): void
+  + addClassOfferings(): void
+  + addCoursesAndConcentrations(): void
+  + addFaculty(): void
+  + build(): ComputerScienceDepartment
+}
+class Concentration {
+  + format(boolean): String
+}
+class Core
+class Course {
+  - title: String
+  + UNITS: int
+  - description: String
+  + format(boolean): String
+  + toString(): String
+  + createElectiveCourse(String, String, String): Elective
+  + createCoreCourse(String, String, String): Core
+   description: String
+   title: String
+   UNITS: int
+   id: String
+}
+enum CourseGrade << enumeration >> {
+  - gradeValue: int
+  + values(): CourseGrade[]
+  + valueOf(String): CourseGrade
+   gradeValue: int
+}
+class CourseGroup {
+  - coordinator: Faculty
+  - name: String
+  + format(boolean): String
+  + addCourse(Course): void
+   coordinator: Faculty
+   name: String
+}
+class DegreeProgram {
+  - totalCoreCourses: int
+  - totalElectiveCourses: int
+   totalCoreCourses: int
+   totalElectiveCourses: int
+}
+class Department {
+  - students: Set<Student>
+  - chairPerson: Faculty
+  - programs: Set<Program>
+  - concentrations: Set<Concentration>
+  - faculty: Set<Faculty>
+  - registrar: Registrar
+  - courses: Set<Course>
+  + enrollProgram(Student, Program): void
+  + addFaculty(Faculty): void
+  + createCoreCourse(String, String, String): Core
+  + findProgram(String): Optional<Program>
+  + addGraduateAdvisor(SchoolYear, Faculty): void
+  + addConcentration(Concentration): void
+  + findFaculty(String): Optional<Faculty>
+  + sendMessageToChairPerson(Person, String, String): void
+  + getUnderGraduateAdvisor(SchoolYear): Optional<Faculty>
+  + sendMessageToFaculty(Person, Faculty, String, String): void
+  + addProgram(Program): void
+  + assignGrade(Student, String, CourseGrade): void
+  + addThesis(Student, Thesis, Semester, Faculty): void
+  + enrollProgram(Student, String): void
+  + addUnderGraduateAdvisor(SchoolYear, Faculty): void
+  + getGraduateAdvisor(SchoolYear): Optional<Faculty>
+  + findStudent(String): Optional<Student>
+  + findCourse(String): Optional<Course>
+  + createElectiveCourse(String, String, String): Elective
+   name: String
+   builder: DepartmentBuilder<T>
+   faculty: Collection<Faculty>
+   courses: Set<Course>
+   programs: Collection<Program>
+   defaultGpaComputeStrategy: GpaComputeStrategy
+   students: Collection<Student>
+   chairPerson: Faculty
+   classOfferings: Collection<ClassOffering>
+   registrar: Registrar
+   concentrations: Collection<Concentration>
+}
+interface DepartmentBuilder<T> << interface >> {
+  + addCoursesAndConcentrations(): void
+  + addPrograms(): void
+  + addFaculty(): void
+  + build(): T
+  + addClassOfferings(): void
+}
+class DepartmentMailRoom {
+  + sendMessageToChairPerson(Person, String, String): void
+  + sendMessage(Person, Person, String, String): void
+  + getInstance(Department, Registrar): DepartmentMailRoom
+  + sendMessageToFaculty(Person, Faculty, String, String): void
+  + accept(Event): void
+}
+class Elective
+class Employee {
+  - titles: Set<Title>
+  + hasTitleType(Class<Title>): boolean
+  + getTitleOfType(Class<T>): Optional<T>
+   advisor: boolean
+   titles: Set<Title>
+   chairPerson: boolean
+}
+class EnrolledCourse {
+  - course: Course
+  - classOffering: ClassOffering
+  - semester: Semester
+  - grade: CourseGrade
+  + totalCoursesUnits(Collection<EnrolledCourse>): int
+  + createEnrolledCourse(Course, Semester, ClassOffering): EnrolledCourse
+  + totalCoursesGrades(Collection<EnrolledCourse>): int
+   course: Course
+   classOffering: ClassOffering
+   semester: Semester
+   grade: CourseGrade
+}
+interface Entity << interface >> {
+   id: String
+}
+interface EntityRelationship << interface >> {
+   id: String
+}
+class Event {
+  - properties: Map<String, String>
+  - description: String
+  - recipient: Person
+  - subject: String
+   description: String
+   recipient: Person
+   properties: Map<String, String>
+   subject: String
+}
+class Faculty {
+  - coordinatedConcentrations: Set<Concentration>
+  - fullTime: boolean
+  + addAdvisedStudent(Semester, Student): void
+  + addCoordinatedConcentration(Concentration): void
+  + addClassOffering(ClassOffering): void
+  + emitFullStatus(Semester): void
+  + getFullStatus(Semester): String
+  + getClassesTaught(Semester): Collection<Course>
+  + getAdvisedStudents(Semester): Collection<Student>
+   fullTime: boolean
+   coordinatedConcentrations: Collection<Concentration>
+}
+interface FacultyMessenger << interface >> {
+  + sendMessageToChairPerson(Person, String, String): void
+  + sendMessageToFaculty(Person, Faculty, String, String): void
+}
+interface GpaComputeStrategy << interface >>
+class GraduateProgram {
+  + minimumYearsToComplete(): int
+  + toString(): String
+}
+interface HyperTextMarkupFormatter << interface >> {
+  + wrapTag(String, String): String
+  + endTag(String): String
+  + format(boolean): String
+  + startTag(String): String
+}
+class InvalidClassOfferingState
+class InvalidEnrollmentRequest
+class InvalidEnrollmentState
+class InvalidRecipientException
+class Mailbox {
+  + hasMessages(): boolean
+  + addMessage(Person, String, String): void
+  + clearMessages(): void
+  + messageCount(): int
+   messages: List<Message>
+}
+entity Message << record >> {
+  + toString(): String
+  + message(): String
+  + sender(): Person
+  + subject(): String
+}
+interface Observer<T> << interface >>
+class Person {
+  - name: String
+  - mailbox: Mailbox
+  + createStudent(String): Student
+  + createFaculty(String, boolean): Faculty
+  + createChairPerson(String): Faculty
+  + createEmployee(String): Employee
+   asAdvisor: Faculty
+   name: String
+   mailbox: Mailbox
+}
+class Program {
+  - title: String
+  + createCertificateProgram(String): Program
+  + createUndergraduateProgram(String, int, int): Program
+  + minimumYearsToComplete(): int
+  + createGraduateProgram(String, int, int): Program
+   title: String
+}
+class Registrar {
+  - department: Department
+  - classOfferings: List<ClassOffering>
+  + addOffering(ClassOffering): void
+  + createClassOffering(Course, Faculty, Semester, int): ClassOffering
+  + dropCourse(Student, EnrolledCourse): EnrolledCourse
+  - facultyExceedsClasses(Faculty, long): boolean
+  + notifyObservers(Event): void
+  - createEvent(String, String, Person): Event
+  + removeObserver(Observer<Event>): void
+  - removeFromWaitList(ClassOffering, Student): void
+  + findClassOffering(String, Semester): Optional<ClassOffering>
+  - addToWaitList(ClassOffering, Student): void
+  + registerObserver(Observer<Event>): void
+  + processAddToWaitList(ClassOffering, Student): void
+  - processRemoveFromWaitList(ClassOffering): void
+  + enrollCourse(Student, ClassOffering): EnrolledCourse
+   classOfferings: Collection<ClassOffering>
+   department: Department
+   instance: Registrar
+}
+class SchoolException
+class SchoolYear {
+  - semesters: List<Semester>
+  - year: int
+  + fromYear(int): SchoolYear
+  + getSemester(int): Semester
+  + fromCurrentYear(): SchoolYear
+  + toString(): String
+   year: long
+   semesters: List<Semester>
+   id: String
+}
+class Semester {
+  - schoolYear: SchoolYear
+  - semester: int
+  + toString(): String
+   schoolYear: SchoolYear
+   id: String
+   semester: int
+}
+class Student {
+  - gpaComputeStrategy: GpaComputeStrategy
+  - thesis: Thesis
+  - program: Program
+  - enrolledCourses: List<EnrolledCourse>
+  + addEnrolledCourse(EnrolledCourse): void
+  + findEnrolledCourse(String): Optional<EnrolledCourse>
+  + removeCourse(EnrolledCourse): boolean
+  + emitFullStatus(): void
+  + gpa(): double
+   thesis: Optional<Thesis>
+   enrolledCoursesStatus: String
+   inFinalYear: boolean
+   enrolledCourses: List<EnrolledCourse>
+   program: Program
+   fullStatus: String
+   gpaComputeStrategy: GpaComputeStrategy
+}
+interface Subject<T> << interface >> {
+  + notifyObservers(T): void
+  + registerObserver(Observer<T>): void
+  + removeObserver(Observer<T>): void
+}
+class Syllabus {
+  - description: String
+  + createBasicSyllabus(Course): Syllabus
+   description: String
+}
+class Thesis {
+  - semester: Semester
+  - advisor: Faculty
+  - title: String
+   semester: Semester
+   advisor: Optional<Faculty>
+   title: String
+}
+class Title {
+  + description(): String
+}
+class TreeNode<T> {
+  + add(TreeNode<T>): void
+   leaf: boolean
+}
+class UndergraduateProgram {
+  + minimumYearsToComplete(): int
+  + toString(): String
+}
+
+AbstractEntity                    -[#609350,dashed]-^  Entity                           
+AbstractEntityRelationship        -[#609350,dashed]-^  EntityRelationship               
+Advisor                           -[#bbbbbb,dashed]->  Advisor                          : "«create»"
+Advisor                           -[#589df6,plain]-^  Title                            
+BostonUniversity                 "1" *-[#bbbbbb,plain]-> "instance\n1" BostonUniversity                 
+BostonUniversity                  -[#bbbbbb,dashed]->  BostonUniversity                 : "«create»"
+BostonUniversity                 "1" *-[#bbbbbb,plain]-> "departments\n*" Department                       
+CertificateProgram                -[#589df6,plain]-^  Program                          
+ChairPerson                       -[#bbbbbb,dashed]->  ChairPerson                      : "«create»"
+ChairPerson                       -[#589df6,plain]-^  Title                            
+ClassOffering                     -[#589df6,plain]-^  AbstractEntityRelationship       
+ClassOffering                    "1" *-[#bbbbbb,plain]-> "course\n1" Course                           
+ClassOffering                    "1" *-[#bbbbbb,plain]-> "professor\n1" Faculty                          
+ClassOffering                    "1" *-[#bbbbbb,plain]-> "semester\n1" Semester                         
+ClassOffering                    "1" *-[#bbbbbb,plain]-> "students\n*" Student                          
+ComputerScienceDepartment         -[#bbbbbb,dashed]->  ComputerScienceDepartment        : "«create»"
+ComputerScienceDepartment        "1" *-[#bbbbbb,plain]-> "instance\n1" ComputerScienceDepartment        
+ComputerScienceDepartment         -[#bbbbbb,dashed]->  ComputerScienceDepartmentBuilder : "«create»"
+ComputerScienceDepartment         -[#589df6,plain]-^  Department                       
+ComputerScienceDepartmentBuilder  +-[#ff6464,plain]-  ComputerScienceDepartment        
+ComputerScienceDepartmentBuilder "1" *-[#bbbbbb,plain]-> "instance\n1" ComputerScienceDepartment        
+ComputerScienceDepartmentBuilder  -[#bbbbbb,dashed]->  ComputerScienceDepartment        : "«create»"
+ComputerScienceDepartmentBuilder  -[#bbbbbb,dashed]->  Concentration                    : "«create»"
+ComputerScienceDepartmentBuilder  -[#bbbbbb,dashed]->  CourseGroup                      : "«create»"
+ComputerScienceDepartmentBuilder  -[#609350,dashed]-^  DepartmentBuilder                
+Concentration                     -[#609350,dashed]-^  HyperTextMarkupFormatter         
+Concentration                     -[#589df6,plain]-^  TreeNode                         
+Core                              -[#589df6,plain]-^  Course                           
+Course                            -[#589df6,plain]-^  AbstractEntity                   
+Course                            -[#bbbbbb,dashed]->  Core                             : "«create»"
+Course                            -[#bbbbbb,dashed]->  Elective                         : "«create»"
+Course                            -[#609350,dashed]-^  HyperTextMarkupFormatter         
+Course                           "1" *-[#bbbbbb,plain]-> "syllabus\n1" Syllabus                         
+CourseGroup                      "1" *-[#bbbbbb,plain]-> "courses\n*" Course                           
+CourseGroup                      "1" *-[#bbbbbb,plain]-> "coordinator\n1" Faculty                          
+CourseGroup                       -[#609350,dashed]-^  HyperTextMarkupFormatter         
+DegreeProgram                     -[#589df6,plain]-^  Program                          
+Department                       "1" *-[#bbbbbb,plain]-> "concentrations\n*" Concentration                    
+Department                        -[#bbbbbb,dashed]->  Core                             : "«create»"
+Department                       "1" *-[#bbbbbb,plain]-> "courses\n*" Course                           
+Department                       "1" *-[#bbbbbb,plain]-> "mailroom\n1" DepartmentMailRoom               
+Department                        -[#bbbbbb,dashed]->  Elective                         : "«create»"
+Department                       "1" *-[#bbbbbb,plain]-> "faculty\n*" Faculty                          
+Department                        -[#609350,dashed]-^  FacultyMessenger                 
+Department                        -[#bbbbbb,dashed]->  InvalidEnrollmentRequest         : "«create»"
+Department                       "1" *-[#bbbbbb,plain]-> "programs\n*" Program                          
+Department                       "1" *-[#bbbbbb,plain]-> "registrar\n1" Registrar                        
+Department                       "1" *-[#bbbbbb,plain]-> "graduateAdvisors\n*" SchoolYear                       
+Department                       "1" *-[#bbbbbb,plain]-> "students\n*" Student                          
+DepartmentBuilder                 -[#bbbbbb,dashed]->  Department                       
+DepartmentBuilder                 +-[#ff6464,plain]-  Department                       
+DepartmentMailRoom               "1" *-[#bbbbbb,plain]-> "department\n1" Department                       
+DepartmentMailRoom                -[#bbbbbb,dashed]->  DepartmentMailRoom               : "«create»"
+DepartmentMailRoom                -[#609350,dashed]-^  FacultyMessenger                 
+DepartmentMailRoom                -[#bbbbbb,dashed]->  InvalidRecipientException        : "«create»"
+DepartmentMailRoom                -[#609350,dashed]-^  Observer                         
+DepartmentMailRoom               "1" *-[#bbbbbb,plain]-> "mailroomSender\n1" Person                           
+Elective                          -[#589df6,plain]-^  Course                           
+Employee                          -[#589df6,plain]-^  Person                           
+Employee                         "1" *-[#bbbbbb,plain]-> "titles\n*" Title                            
+EnrolledCourse                    -[#589df6,plain]-^  AbstractEntityRelationship       
+EnrolledCourse                   "1" *-[#bbbbbb,plain]-> "classOffering\n1" ClassOffering                    
+EnrolledCourse                   "1" *-[#bbbbbb,plain]-> "course\n1" Course                           
+EnrolledCourse                   "1" *-[#bbbbbb,plain]-> "grade\n1" CourseGrade                      
+EnrolledCourse                    -[#bbbbbb,dashed]->  EnrolledCourse                   : "«create»"
+EnrolledCourse                   "1" *-[#bbbbbb,plain]-> "semester\n1" Semester                         
+Event                             -[#589df6,plain]-^  AbstractEntity                   
+Event                            "1" *-[#bbbbbb,plain]-> "recipient\n1" Person                           
+Faculty                          "1" *-[#bbbbbb,plain]-> "classesTaught\n*" ClassOffering                    
+Faculty                          "1" *-[#bbbbbb,plain]-> "coordinatedConcentrations\n*" Concentration                    
+Faculty                           -[#589df6,plain]-^  Employee                         
+Faculty                          "1" *-[#bbbbbb,plain]-> "advisedStudents\n*" Semester                         
+GraduateProgram                   -[#589df6,plain]-^  DegreeProgram                    
+InvalidClassOfferingState         -[#589df6,plain]-^  SchoolException                  
+InvalidEnrollmentRequest          -[#589df6,plain]-^  SchoolException                  
+InvalidEnrollmentState            -[#589df6,plain]-^  SchoolException                  
+InvalidRecipientException         -[#589df6,plain]-^  SchoolException                  
+Mailbox                           -[#bbbbbb,dashed]->  Message                          : "«create»"
+Mailbox                          "1" *-[#bbbbbb,plain]-> "inbox\n*" Message                          
+Mailbox                          "1" *-[#bbbbbb,plain]-> "owner\n1" Person                           
+Message                           +-[#ff6464,plain]-  Mailbox                          
+Message                          "1" *-[#bbbbbb,plain]-> "sender\n1" Person                           
+Observer                          -[#bbbbbb,dashed]->  Event                            
+Person                            -[#589df6,plain]-^  AbstractEntity                   
+Person                            -[#bbbbbb,dashed]->  Employee                         : "«create»"
+Person                            -[#bbbbbb,dashed]->  Faculty                          : "«create»"
+Person                            -[#bbbbbb,dashed]->  Mailbox                          : "«create»"
+Person                           "1" *-[#bbbbbb,plain]-> "mailbox\n1" Mailbox                          
+Person                            -[#bbbbbb,dashed]->  Student                          : "«create»"
+Program                           -[#589df6,plain]-^  AbstractEntity                   
+Program                           -[#bbbbbb,dashed]->  CertificateProgram               : "«create»"
+Program                           -[#bbbbbb,dashed]->  GraduateProgram                  : "«create»"
+Program                           -[#bbbbbb,dashed]->  UndergraduateProgram             : "«create»"
+Registrar                         -[#bbbbbb,dashed]->  ClassOffering                    : "«create»"
+Registrar                        "1" *-[#bbbbbb,plain]-> "classOfferings\n*" ClassOffering                    
+Registrar                        "1" *-[#bbbbbb,plain]-> "department\n1" Department                       
+Registrar                         -[#bbbbbb,dashed]->  Event                            : "«create»"
+Registrar                         -[#bbbbbb,dashed]->  InvalidClassOfferingState        : "«create»"
+Registrar                         -[#bbbbbb,dashed]->  InvalidEnrollmentRequest         : "«create»"
+Registrar                        "1" *-[#bbbbbb,plain]-> "observers\n*" Observer                         
+Registrar                         -[#bbbbbb,dashed]->  Registrar                        : "«create»"
+Registrar                         -[#609350,dashed]-^  Subject                          
+SchoolYear                        -[#589df6,plain]-^  AbstractEntity                   
+SchoolYear                        -[#bbbbbb,dashed]->  SchoolYear                       : "«create»"
+SchoolYear                       "1" *-[#bbbbbb,plain]-> "semesters\n*" Semester                         
+SchoolYear                        -[#bbbbbb,dashed]->  Semester                         : "«create»"
+Semester                          -[#589df6,plain]-^  AbstractEntity                   
+Semester                         "1" *-[#bbbbbb,plain]-> "schoolYear\n1" SchoolYear                       
+Student                          "1" *-[#bbbbbb,plain]-> "enrolledCourses\n*" EnrolledCourse                   
+Student                          "1" *-[#bbbbbb,plain]-> "gpaComputeStrategy\n1" GpaComputeStrategy               
+Student                           -[#589df6,plain]-^  Person                           
+Student                          "1" *-[#bbbbbb,plain]-> "program\n1" Program                          
+Student                          "1" *-[#bbbbbb,plain]-> "thesis\n1" Thesis                           
+Subject                           -[#bbbbbb,dashed]->  Event                            
+Syllabus                          -[#589df6,plain]-^  AbstractEntity                   
+Syllabus                          -[#bbbbbb,dashed]->  Syllabus                         : "«create»"
+Thesis                           "1" *-[#bbbbbb,plain]-> "advisor\n1" Faculty                          
+Thesis                           "1" *-[#bbbbbb,plain]-> "semester\n1" Semester                         
+Title                             -[#589df6,plain]-^  AbstractEntity                   
+TreeNode                         "1" *-[#bbbbbb,plain]-> "children\n*" TreeNode                         
+UndergraduateProgram              -[#589df6,plain]-^  DegreeProgram                    
+@enduml
