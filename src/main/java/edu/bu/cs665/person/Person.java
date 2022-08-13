@@ -1,6 +1,6 @@
 package edu.bu.cs665.person;
 
-import edu.bu.cs665.AbstractEntity;
+import edu.bu.cs665.entity.AbstractEntity;
 import edu.bu.cs665.messaging.Mailbox;
 import org.checkerframework.checker.nullness.qual.NonNull;
 

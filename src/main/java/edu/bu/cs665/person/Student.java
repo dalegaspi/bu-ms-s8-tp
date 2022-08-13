@@ -1,13 +1,12 @@
 package edu.bu.cs665.person;
 
-import edu.bu.cs665.EnrolledCourse;
-import edu.bu.cs665.GpaComputeStrategy;
+import edu.bu.cs665.course.EnrolledCourse;
+import edu.bu.cs665.grade.GpaComputeStrategy;
 import edu.bu.cs665.program.Program;
 import edu.bu.cs665.program.Thesis;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;

@@ -1,6 +1,8 @@
 package edu.bu.cs665;
 
+import edu.bu.cs665.course.ClassOffering;
 import edu.bu.cs665.course.Course;
+import edu.bu.cs665.course.EnrolledCourse;
 import edu.bu.cs665.course.Semester;
 import edu.bu.cs665.exceptions.InvalidClassOfferingState;
 import edu.bu.cs665.exceptions.InvalidEnrollmentRequest;

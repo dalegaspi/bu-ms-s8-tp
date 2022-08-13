@@ -1,6 +1,6 @@
 package edu.bu.cs665.notifications;
 
-import edu.bu.cs665.AbstractEntity;
+import edu.bu.cs665.entity.AbstractEntity;
 import edu.bu.cs665.person.Person;
 
 import java.util.HashMap;

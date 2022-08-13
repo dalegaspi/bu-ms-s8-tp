@@ -1,10 +1,7 @@
 package edu.bu.cs665.course;
 
-import edu.bu.cs665.AbstractEntity;
-import edu.bu.cs665.Entity;
+import edu.bu.cs665.entity.AbstractEntity;
 import edu.bu.cs665.formatting.HyperTextMarkupFormatter;
-
-import javax.swing.text.html.HTML;
 
 import static edu.bu.cs665.formatting.HyperTextMarkupFormatter.wrapTag;
 

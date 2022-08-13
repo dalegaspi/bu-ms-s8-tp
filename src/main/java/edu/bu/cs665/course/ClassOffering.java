@@ -1,7 +1,8 @@
-package edu.bu.cs665;
+package edu.bu.cs665.course;
 
 import edu.bu.cs665.course.Course;
 import edu.bu.cs665.course.Semester;
+import edu.bu.cs665.entity.AbstractEntityRelationship;
 import edu.bu.cs665.person.Faculty;
 import edu.bu.cs665.person.Student;
 import org.checkerframework.checker.nullness.qual.NonNull;

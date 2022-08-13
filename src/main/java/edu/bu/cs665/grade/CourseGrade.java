@@ -1,4 +1,4 @@
-package edu.bu.cs665;
+package edu.bu.cs665.grade;
 
 public enum CourseGrade {
     A(4),

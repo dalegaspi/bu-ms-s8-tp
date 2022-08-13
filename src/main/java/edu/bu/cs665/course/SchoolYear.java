@@ -1,6 +1,6 @@
 package edu.bu.cs665.course;
 
-import edu.bu.cs665.AbstractEntity;
+import edu.bu.cs665.entity.AbstractEntity;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

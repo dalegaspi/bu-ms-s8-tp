@@ -1,6 +1,6 @@
 package edu.bu.cs665.course;
 
-import edu.bu.cs665.AbstractEntity;
+import edu.bu.cs665.entity.AbstractEntity;
 
 public class Semester extends AbstractEntity {
     private final SchoolYear schoolYear;

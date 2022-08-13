@@ -1,7 +1,6 @@
 package edu.bu.cs665.program;
 
-import edu.bu.cs665.AbstractEntity;
-import org.checkerframework.checker.units.qual.C;
+import edu.bu.cs665.entity.AbstractEntity;
 
 public class Program extends AbstractEntity {
     private final String title;

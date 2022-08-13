@@ -1,4 +1,6 @@
-package edu.bu.cs665;
+package edu.bu.cs665.grade;
+
+import edu.bu.cs665.course.EnrolledCourse;
 
 import java.util.List;
 import java.util.function.Function;

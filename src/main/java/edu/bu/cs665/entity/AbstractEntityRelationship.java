@@ -1,9 +1,9 @@
-package edu.bu.cs665;
+package edu.bu.cs665.entity;
 
 import java.util.Objects;
 import java.util.UUID;
 
-public abstract class AbstractEntity implements Entity {
+public class AbstractEntityRelationship implements EntityRelationship {
     protected String id = generateId();
 
     @Override
@@ -21,7 +21,7 @@ public abstract class AbstractEntity implements Entity {
             return true;
         if (o == null || getClass() != o.getClass())
             return false;
-        AbstractEntity that = (AbstractEntity) o;
+        AbstractEntityRelationship that = (AbstractEntityRelationship) o;
         return getId().equals(that.getId());
     }
 

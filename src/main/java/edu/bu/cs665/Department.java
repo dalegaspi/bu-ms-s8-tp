@@ -1,9 +1,11 @@
 package edu.bu.cs665;
 
+import edu.bu.cs665.course.ClassOffering;
 import edu.bu.cs665.course.ConcentrationGroup;
 import edu.bu.cs665.course.SchoolYear;
 import edu.bu.cs665.exceptions.InvalidEnrollmentRequest;
 import edu.bu.cs665.exceptions.InvalidRecipientException;
+import edu.bu.cs665.grade.GpaComputeStrategy;
 import edu.bu.cs665.messaging.DepartmentMailRoom;
 import edu.bu.cs665.messaging.FacultyMessenger;
 import edu.bu.cs665.person.Faculty;
@@ -16,8 +18,8 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static edu.bu.cs665.EnrolledCourse.totalCoursesGrades;
-import static edu.bu.cs665.EnrolledCourse.totalCoursesUnits;
+import static edu.bu.cs665.course.EnrolledCourse.totalCoursesGrades;
+import static edu.bu.cs665.course.EnrolledCourse.totalCoursesUnits;
 
 /**
  * Abstract class for university department
