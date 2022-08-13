@@ -4,6 +4,7 @@ import edu.bu.cs665.course.ConcentrationGroup;
 import edu.bu.cs665.course.SchoolYear;
 import edu.bu.cs665.exceptions.InvalidEnrollmentRequest;
 import edu.bu.cs665.exceptions.InvalidRecipientException;
+import edu.bu.cs665.messaging.DepartmentMailRoom;
 import edu.bu.cs665.messaging.FacultyMessenger;
 import edu.bu.cs665.person.Faculty;
 import edu.bu.cs665.person.Person;
@@ -21,17 +22,6 @@ import java.util.logging.Logger;
  * @author dlegaspi@bu.edu
  */
 public abstract class Department implements FacultyMessenger {
-
-    public void sendMessageToFaculty(@NonNull Person sender, @NonNull Faculty recipient, String subject, String message)
-                    throws InvalidRecipientException {
-        this.mailroom.sendMessageToFaculty(sender, recipient, subject, message);
-    }
-
-    public void sendMessageToChairPerson(@NonNull Person sender, String subject, String message)
-                    throws InvalidRecipientException {
-        this.mailroom.sendMessageToChairPerson(sender, subject, message);
-    }
-
     private static final Logger logger = Logger.getLogger(Department.class.getName());
 
     public abstract String getName();
@@ -127,15 +117,11 @@ public abstract class Department implements FacultyMessenger {
     }
 
     public void enrollProgram(Student student, Program program) {
-        assert getStudents().contains(student);
-
         getStudents().add(student);
         student.setProgram(program);
     }
 
     public void enrollProgram(Student student, String programTitle) throws InvalidEnrollmentRequest {
-        assert getStudents().contains(student);
-
         findProgram(programTitle).map(p -> {
             student.setProgram(p);
             return true;
@@ -159,4 +145,14 @@ public abstract class Department implements FacultyMessenger {
     }
 
     public abstract <T extends Department> DepartmentBuilder<T> getBuilder();
+
+    public void sendMessageToFaculty(@NonNull Person sender, @NonNull Faculty recipient, String subject, String message)
+                    throws InvalidRecipientException {
+        this.mailroom.sendMessageToFaculty(sender, recipient, subject, message);
+    }
+
+    public void sendMessageToChairPerson(@NonNull Person sender, String subject, String message)
+                    throws InvalidRecipientException {
+        this.mailroom.sendMessageToChairPerson(sender, subject, message);
+    }
 }

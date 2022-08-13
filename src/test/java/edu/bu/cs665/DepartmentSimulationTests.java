@@ -1,6 +1,9 @@
 package edu.bu.cs665;
 
 import edu.bu.cs665.course.Course;
+import edu.bu.cs665.exceptions.InvalidEnrollmentRequest;
+import edu.bu.cs665.exceptions.InvalidRecipientException;
+import edu.bu.cs665.person.Person;
 import edu.bu.cs665.person.Student;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -28,13 +31,16 @@ public class DepartmentSimulationTests {
 
     @Test
     @DisplayName("Department Creation Tests")
-    public void departmentCreation() {
+    public void departmentCreation() throws InvalidEnrollmentRequest, InvalidRecipientException {
         var bu = BostonUniversity.getInstance();
 
-        var cs = bu.findDepartment("Computer Science");
+        var cs = bu.findDepartment("Computer Science").orElseThrow();
 
-        assertTrue(cs.isPresent());
+        var s = Person.createStudent("Robert Baratheon");
+        cs.enrollProgram(s, "Chocolate Boiler Repair");
+        cs.sendMessageToChairPerson(s, "Hello", "World");
 
+        assertTrue(cs.getChairPerson().getMailbox().getMessages().size() > 0);
     }
 
     @Test

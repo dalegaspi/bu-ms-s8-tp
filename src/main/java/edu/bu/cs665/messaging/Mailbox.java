@@ -1,14 +1,26 @@
-package edu.bu.cs665.person;
+package edu.bu.cs665.messaging;
+
+import edu.bu.cs665.person.Person;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Mailbox for receiving queries
  *
  * @author dlegaspi@bu.edu
  */
-public class Mailbox {
+public final class Mailbox {
+    private static final Logger logger = Logger.getLogger(Mailbox.class.getName());
+
+    private final Person owner;
+
+    public Mailbox(Person owner) {
+        this.owner = owner;
+    }
+
     public record Message(Person sender, String subject, String message) {
 
         @Override
@@ -20,7 +32,10 @@ public class Mailbox {
     private final List<Message> inbox = new ArrayList<>();
 
     public void addMessage(Person sender, String subject, String message) {
-        inbox.add(new Message(sender, subject, message));
+        var msg = new Message(sender, subject, message);
+        logger.log(Level.INFO, "Mailbox [{0}] receives message: {1}", new Object[] {
+                        owner.getName(), msg });
+        inbox.add(msg);
     }
 
     public List<Message> getMessages() {

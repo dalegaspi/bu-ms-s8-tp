@@ -1,7 +1,8 @@
-package edu.bu.cs665;
+package edu.bu.cs665.messaging;
 
+import edu.bu.cs665.Department;
+import edu.bu.cs665.Registrar;
 import edu.bu.cs665.exceptions.InvalidRecipientException;
-import edu.bu.cs665.messaging.FacultyMessenger;
 import edu.bu.cs665.notifications.Event;
 import edu.bu.cs665.notifications.Observer;
 import edu.bu.cs665.person.Faculty;
@@ -32,7 +33,7 @@ public final class DepartmentMailRoom implements Observer<Event>, FacultyMesseng
 
     public void sendMessageToFaculty(@NonNull Person sender, @NonNull Faculty recipient, String subject, String message)
                     throws InvalidRecipientException {
-        if (department.getFaculty().contains(recipient)) {
+        if (!department.getFaculty().contains(recipient)) {
             throw new InvalidRecipientException(String.format("%s is not from this department", recipient.getName()));
         }
 

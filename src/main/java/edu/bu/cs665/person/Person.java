@@ -1,6 +1,7 @@
 package edu.bu.cs665.person;
 
 import edu.bu.cs665.AbstractEntity;
+import edu.bu.cs665.messaging.Mailbox;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.logging.Logger;
@@ -18,17 +19,18 @@ public class Person extends AbstractEntity {
 
     private final String name;
 
-    private final Mailbox mailbox = new Mailbox();
+    private final Mailbox mailbox;
 
     public Person(String name) {
         this.name = name;
+        this.mailbox = new Mailbox(this);
     }
 
     public String getName() {
         return name;
     }
 
-    public static Person createStudent(String name) {
+    public static Student createStudent(String name) {
         return new Student(name);
     }
 
