@@ -1,5 +1,23 @@
 # CS665 Term Project
 
+- [Overview](#overview)
+- [Build and Output](#build-and-output)
+    * [Output](#output)
+    * [Sample Output](#sample-output)
+- [Class Diagram](#class-diagram)
+- [Creational Design Patterns](#creational-design-patterns)
+    * [Singleton](#singleton)
+    * [Builder](#builder)
+- [Structural Design Patterns](#structural-design-patterns)
+    * [Bridge](#bridge)
+    * [Composite](#composite)
+- [Behavioral Design Patterns](#behavioral-design-patterns)
+    * [Observer](#observer)
+    * [Strategy](#strategy)
+- [Implementation Notes](#implementation-notes)
+    * [Assumptions](#assumptions)
+    * [Notes](#notes)
+  
 ## Overview
 
 This is an application that simulates a department (swith focus on the Computer Science Department) of a university.  There is a class hierarchy for the students and employees along with their responsibilities as well as the artifacts that each person interacts with.  
