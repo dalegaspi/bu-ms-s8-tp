@@ -157,17 +157,19 @@ public abstract class Department implements FacultyMessenger {
         return getCourses().stream().filter(c -> c.getId().equals(id)).findAny();
     }
 
-    public void addThesis(@NonNull Student student, @NonNull Thesis thesis, Faculty advisor)
+    public void addThesis(@NonNull Student student, @NonNull Thesis thesis, @NonNull Semester semester, Faculty advisor)
                     throws InvalidEnrollmentRequest {
         try {
             if (!student.isInFinalYear())
                 throw new InvalidEnrollmentRequest("Cannot assign thesis if student is not in final year of program");
 
-            if (!getFaculty().contains(advisor))
-                throw new InvalidEnrollmentRequest("Requested thesis advisor is not member of faculty");
+            if (advisor != null) {
+                if (!getFaculty().contains(advisor))
+                    throw new InvalidEnrollmentRequest("Requested thesis advisor is not member of faculty");
 
-            if (!advisor.isFullTime())
-                throw new InvalidEnrollmentRequest("Requested thesis advisor is not full-time member of faculty");
+                if (!advisor.isFullTime())
+                    throw new InvalidEnrollmentRequest("Requested thesis advisor is not full-time member of faculty");
+            }
 
             thesis.setAdvisor(advisor);
             student.setThesis(thesis);

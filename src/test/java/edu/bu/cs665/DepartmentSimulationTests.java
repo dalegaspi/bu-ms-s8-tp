@@ -54,6 +54,9 @@ public class DepartmentSimulationTests {
 
         s.emitFullStatus();
 
+        var f = cs.findFaculty("Thor Odinson").orElseThrow();
+        f.emitFullStatus(sy2022.getSemester(1));
+
         // testing the sending of query
         cs.sendMessageToChairPerson(s, "Hello", "World");
         assertTrue(cs.getChairPerson().getMailbox().hasMessages());

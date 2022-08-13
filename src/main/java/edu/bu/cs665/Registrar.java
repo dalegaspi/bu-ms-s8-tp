@@ -80,6 +80,7 @@ public final class Registrar implements Subject<Event> {
             logger.log(Level.INFO, "Added course offering: {0}", offering);
             getClassOfferings().add(offering);
 
+            professor.addClassOffering(offering);
             return offering;
         }
     }

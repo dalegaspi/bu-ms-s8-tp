@@ -90,14 +90,13 @@ public final class ComputerScienceDepartment extends Department {
             instance.addProgram(Program.createGraduateProgram("Software Development", 2, 2));
         }
 
-        @SuppressWarnings("OptionalGetWithoutIsPresent")
         @Override
         public void addClassOfferings(SchoolYear year) throws InvalidClassOfferingState {
             var sy2021 = SchoolYear.fromYear(2021);
             var sy2022 = SchoolYear.fromYear(2022);
 
-            var faculty01 = instance.findFaculty("Thor Odinson").get();
-            var faculty02 = instance.findFaculty("Maya Lopez").get();
+            var faculty01 = instance.findFaculty("Thor Odinson").orElseThrow();
+            var faculty02 = instance.findFaculty("Maya Lopez").orElseThrow();
 
             var cs526 = instance.findCourse("CS526").get();
             var cs669 = instance.findCourse("CS669").get();
